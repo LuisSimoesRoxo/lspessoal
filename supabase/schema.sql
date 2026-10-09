@@ -77,16 +77,15 @@ create table if not exists peixes (
   nome_comum      text  not null,
   nome_cientifico text,
   origem          text,
+  quantidade      integer not null default 1,
   data_aquisicao  date,
   foto_url        text,
-  ph_min          numeric(4,1),
-  ph_max          numeric(4,1),
-  temp_min        numeric(4,1),
-  temp_max        numeric(4,1),
-  tipo_agua       text  check (tipo_agua in ('Água Doce','Água Salgada','Salobra')),
-  nivel_agua      text  check (nivel_agua in ('Superfície','Intermédio','Fundo')),
-  agressividade   text  check (agressividade in ('Baixa','Média','Alta')),
-  reproducao      text  check (reproducao in ('Simples','Moderada','Complicada')),
+  ph              text,   -- texto livre, ex: "6.4-7.5"
+  temperatura     text,   -- texto livre, ex: "24-28"
+  tipo_agua       text,   -- texto livre com sugestões (datalist) no frontend
+  nivel_agua      text,
+  agressividade   text,
+  reproducao      text,
   observacoes     text,
   data_criacao    timestamptz not null default now()
 );
@@ -99,13 +98,13 @@ create table if not exists plantas (
   nome_comum          text  not null,
   nome_cientifico     text,
   origem              text,
+  quantidade          integer not null default 1,
   data_aquisicao      date,
   foto_url            text,
-  tamanho             text,   -- ex: 20–40 cm
-  temp_min            numeric(4,1),
-  temp_max            numeric(4,1),
-  luminosidade        text  check (luminosidade in ('Baixa','Média','Alta')),
-  plantio             text  check (plantio in ('Solta','Atada','Substrato')),
+  tamanho             text,   -- texto livre (cm), ex: "20-30"
+  temperatura         text,   -- texto livre, ex: "20-28"
+  luminosidade        text,   -- texto livre com sugestões (datalist) no frontend
+  plantio             text,
   resistencia_peixes  boolean not null default false,
   truques             text,
   data_criacao        timestamptz not null default now()
@@ -118,11 +117,10 @@ create table if not exists electronica (
   id          uuid  primary key default uuid_generate_v4(),
   nome        text  not null,
   descricao   text,
+  quantidade  integer not null default 1,
   foto_url    text,
-  volt_min    numeric(6,2),
-  volt_max    numeric(6,2),
-  tensao_min  numeric(6,3),
-  tensao_max  numeric(6,3),
+  voltagem    text,   -- texto livre, ex: "5-12 V"
+  tensao      text,   -- texto livre, ex: "0.5-2 A"
   utilidade   text,
   data_criacao timestamptz not null default now()
 );
@@ -134,9 +132,31 @@ create table if not exists bricolagem (
   id          uuid  primary key default uuid_generate_v4(),
   nome        text  not null,
   descricao   text,
+  quantidade  integer not null default 1,
   foto_url    text,
   utilidade   text,
   data_criacao timestamptz not null default now()
+);
+
+-- -----------------------------------------------------------------------------
+-- TABELA: experiencias + experiencia_registos ("livro de experiências")
+-- -----------------------------------------------------------------------------
+create table if not exists experiencias (
+  id            uuid primary key default uuid_generate_v4(),
+  titulo        text not null,
+  data_abertura timestamptz not null default now(),
+  data_fecho    date,
+  resultado     text,
+  data_criacao  timestamptz not null default now()
+);
+
+create table if not exists experiencia_registos (
+  id             uuid primary key default uuid_generate_v4(),
+  experiencia_id uuid not null references experiencias(id) on delete cascade,
+  data_registo   date not null default current_date,
+  descricao      text not null,
+  foto_url       text,
+  data_criacao   timestamptz not null default now()
 );
 
 -- -----------------------------------------------------------------------------
@@ -186,12 +206,14 @@ begin
   if TG_OP = 'INSERT' then
     insert into auditoria (acao, tabela, campo_alterado, valor_antes, valor_depois)
     values ('INSERT', TG_TABLE_NAME, 'nome', '—', coalesce(
-      (row_to_json(new)->>'nome_comum'), (row_to_json(new)->>'nome'), (row_to_json(new)->>'descricao'), (row_to_json(new)->>'url'), '(novo registo)'
+      (row_to_json(new)->>'nome_comum'), (row_to_json(new)->>'nome'), (row_to_json(new)->>'titulo'),
+      (row_to_json(new)->>'descricao'), (row_to_json(new)->>'url'), '(novo registo)'
     ));
   elsif TG_OP = 'DELETE' then
     insert into auditoria (acao, tabela, campo_alterado, valor_antes, valor_depois)
     values ('DELETE', TG_TABLE_NAME, '—', coalesce(
-      (row_to_json(old)->>'nome_comum'), (row_to_json(old)->>'nome'), (row_to_json(old)->>'descricao'), '(registo eliminado)'
+      (row_to_json(old)->>'nome_comum'), (row_to_json(old)->>'nome'), (row_to_json(old)->>'titulo'),
+      (row_to_json(old)->>'descricao'), '(registo eliminado)'
     ), '—');
   elsif TG_OP = 'UPDATE' then
     -- registar cada campo alterado separadamente
@@ -217,6 +239,8 @@ create trigger audit_electronica after insert or update or delete on electronica
 create trigger audit_bricolagem  after insert or update or delete on bricolagem  for each row execute function audit_changes();
 create trigger audit_marcadores  after insert or update or delete on marcadores  for each row execute function audit_changes();
 create trigger audit_lembretes   after insert or update or delete on lembretes   for each row execute function audit_changes();
+create trigger audit_experiencias         after insert or update or delete on experiencias         for each row execute function audit_changes();
+create trigger audit_experiencia_registos after insert or update or delete on experiencia_registos for each row execute function audit_changes();
 
 -- -----------------------------------------------------------------------------
 -- ROW LEVEL SECURITY (RLS)
@@ -231,6 +255,8 @@ alter table plantas     enable row level security;
 alter table electronica enable row level security;
 alter table bricolagem  enable row level security;
 alter table auditoria   enable row level security;
+alter table experiencias         enable row level security;
+alter table experiencia_registos enable row level security;
 
 -- --- Leitura pública (SELECT) ---
 create policy "publico_le_marcadores"   on marcadores   for select using (true);
@@ -240,6 +266,8 @@ create policy "publico_le_plantas"      on plantas      for select using (true);
 create policy "publico_le_electronica"  on electronica  for select using (true);
 create policy "publico_le_bricolagem"   on bricolagem   for select using (true);
 create policy "publico_le_auditoria"    on auditoria    for select using (true);
+create policy "publico_le_experiencias"         on experiencias         for select using (true);
+create policy "publico_le_experiencia_registos" on experiencia_registos for select using (true);
 -- config: SEM policy de select público — só o owner (ver abaixo) a lê.
 
 -- --- Escrita (INSERT/UPDATE/DELETE) — só is_owner() ---
@@ -249,6 +277,8 @@ create policy "owner_escreve_peixes"      on peixes      for all using (is_owner
 create policy "owner_escreve_plantas"     on plantas     for all using (is_owner()) with check (is_owner());
 create policy "owner_escreve_electronica" on electronica for all using (is_owner()) with check (is_owner());
 create policy "owner_escreve_bricolagem"  on bricolagem  for all using (is_owner()) with check (is_owner());
+create policy "owner_escreve_experiencias"         on experiencias         for all using (is_owner()) with check (is_owner());
+create policy "owner_escreve_experiencia_registos" on experiencia_registos for all using (is_owner()) with check (is_owner());
 
 -- auditoria: owner pode inserir (registo de LOGIN feito pelo frontend) e eliminar (limpar auditoria)
 -- mas nunca "actualizar" (o histórico não se edita)

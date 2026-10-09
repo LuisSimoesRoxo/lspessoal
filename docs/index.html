@@ -284,6 +284,20 @@
       .form-row { grid-template-columns: 1fr; }
       .form-row-3 { grid-template-columns: 1fr; }
     }
+
+    /* Lightbox */
+    #lightbox[hidden] { display: none; }
+    #lightbox {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.85);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; cursor: zoom-out;
+    }
+    #lightbox img {
+      max-width: 100%; max-height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.5);
+    }
   </style>
 </head>
 <body>
@@ -314,6 +328,7 @@
       <div class="nav-link" data-page="pg-plantas"><span class="icon">🌿</span> Plantas</div>
       <div class="nav-link" data-page="pg-electronica"><span class="icon">⚡</span> Eletrónica</div>
       <div class="nav-link" data-page="pg-bricolagem"><span class="icon">🔧</span> Bricolagem</div>
+      <div class="nav-link" data-page="pg-experiencias"><span class="icon">🧪</span> Experiências</div>
       <div class="nav-section-label">Sistema</div>
       <div class="nav-link" data-page="pg-auditoria"><span class="icon">📋</span> Auditoria</div>
       <div class="nav-link" data-page="pg-config"><span class="icon">⚙️</span> Configurações</div>
@@ -533,76 +548,47 @@
               <input type="text" id="peixe-origem" name="origem">
             </div>
             <div class="form-group">
-              <label for="peixe-data">Data de Aquisição</label>
-              <input type="date" id="peixe-data" name="data_aquisicao" required>
+              <label for="peixe-quantidade">Quantidade</label>
+              <input type="number" id="peixe-quantidade" name="quantidade" min="0" step="1" value="1" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="peixe-foto">Foto URL</label>
-              <input type="url" id="peixe-foto" name="foto_url" placeholder="https://…">
+              <label for="peixe-data">Data de Aquisição</label>
+              <input type="date" id="peixe-data" name="data_aquisicao" required>
             </div>
             <div class="form-group">
-              <label for="peixe-foto-file">Ou carregar foto do PC</label>
+              <label for="peixe-foto-file">Foto (carregar do PC)</label>
               <input type="file" id="peixe-foto-file" accept="image/*">
+              <input type="hidden" id="peixe-foto" name="foto_url">
             </div>
           </div>
           <div class="form-row-3">
             <div class="form-group">
               <label for="peixe-tipo">Tipo de Água</label>
-              <select id="peixe-tipo" name="tipo_agua">
-                <option value="">—</option>
-                <option value="Água Doce">Água Doce</option>
-                <option value="Água Salgada">Água Salgada</option>
-                <option value="Salobra">Salobra</option>
-              </select>
+              <input type="text" id="peixe-tipo" name="tipo_agua" list="lista-tipo-agua" placeholder="ex: Água Doce">
             </div>
             <div class="form-group">
               <label for="peixe-nivel">Nível de Água</label>
-              <select id="peixe-nivel" name="nivel_agua">
-                <option value="">—</option>
-                <option value="Superfície">Superfície</option>
-                <option value="Intermédio">Intermédio</option>
-                <option value="Fundo">Fundo</option>
-              </select>
+              <input type="text" id="peixe-nivel" name="nivel_agua" list="lista-nivel-agua" placeholder="ex: Fundo">
             </div>
             <div class="form-group">
               <label for="peixe-agressividade">Agressividade</label>
-              <select id="peixe-agressividade" name="agressividade">
-                <option value="">—</option>
-                <option value="Baixa">Baixa</option>
-                <option value="Média">Média</option>
-                <option value="Alta">Alta</option>
-              </select>
+              <input type="text" id="peixe-agressividade" name="agressividade" list="lista-agressividade" placeholder="ex: Média">
             </div>
           </div>
           <div class="form-row-3">
             <div class="form-group">
-              <label for="peixe-ph-min">pH Mín</label>
-              <input type="number" id="peixe-ph-min" name="ph_min" step="0.1" min="0" max="14">
+              <label for="peixe-ph">pH</label>
+              <input type="text" id="peixe-ph" name="ph" placeholder="ex: 6.4-7.5">
             </div>
             <div class="form-group">
-              <label for="peixe-ph-max">pH Máx</label>
-              <input type="number" id="peixe-ph-max" name="ph_max" step="0.1" min="0" max="14">
+              <label for="peixe-temp">Temperatura (°C)</label>
+              <input type="text" id="peixe-temp" name="temperatura" placeholder="ex: 24-28">
             </div>
             <div class="form-group">
               <label for="peixe-reproducao">Reprodução</label>
-              <select id="peixe-reproducao" name="reproducao">
-                <option value="">—</option>
-                <option value="Simples">Simples</option>
-                <option value="Moderada">Moderada</option>
-                <option value="Complicada">Complicada</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="peixe-temp-min">Temp. Mín (°C)</label>
-              <input type="number" id="peixe-temp-min" name="temp_min" step="0.5">
-            </div>
-            <div class="form-group">
-              <label for="peixe-temp-max">Temp. Máx (°C)</label>
-              <input type="number" id="peixe-temp-max" name="temp_max" step="0.5">
+              <input type="text" id="peixe-reproducao" name="reproducao" list="lista-reproducao" placeholder="ex: Simples">
             </div>
           </div>
           <div class="form-group">
@@ -618,11 +604,48 @@
 
       <div class="tbl-wrap">
         <table id="tbl-peixes">
-          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Aquisição</th><th>Ações</th></tr></thead>
-          <tbody><tr><td colspan="6" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Qtd</th><th>Aquisição</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="7" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
         </table>
       </div>
     </section>
+
+    <!-- Sugestões para os campos de texto livre (peixes/plantas) — escreve
+         um valor novo à vontade, isto são só sugestões, não uma lista fechada -->
+    <datalist id="lista-tipo-agua">
+      <option value="Água Doce"></option>
+      <option value="Água Salgada"></option>
+      <option value="Salobra"></option>
+    </datalist>
+    <datalist id="lista-nivel-agua">
+      <option value="Superfície"></option>
+      <option value="Intermédio"></option>
+      <option value="Fundo"></option>
+    </datalist>
+    <datalist id="lista-agressividade">
+      <option value="Baixa"></option>
+      <option value="Baixa-Média"></option>
+      <option value="Média"></option>
+      <option value="Média-Alta"></option>
+      <option value="Alta"></option>
+    </datalist>
+    <datalist id="lista-reproducao">
+      <option value="Simples"></option>
+      <option value="Moderada"></option>
+      <option value="Complicada"></option>
+    </datalist>
+    <datalist id="lista-luminosidade">
+      <option value="Baixa"></option>
+      <option value="Baixa-Média"></option>
+      <option value="Média"></option>
+      <option value="Média-Alta"></option>
+      <option value="Alta"></option>
+    </datalist>
+    <datalist id="lista-plantio">
+      <option value="Solta"></option>
+      <option value="Atada"></option>
+      <option value="Substrato"></option>
+    </datalist>
 
     <!-- ════════════════════════════════════════
          PG-PLANTAS
@@ -653,53 +676,38 @@
               <input type="text" id="planta-origem" name="origem">
             </div>
             <div class="form-group">
-              <label for="planta-data">Data de Aquisição</label>
-              <input type="date" id="planta-data" name="data_aquisicao" required>
+              <label for="planta-quantidade">Quantidade</label>
+              <input type="number" id="planta-quantidade" name="quantidade" min="0" step="1" value="1" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="planta-foto">Foto URL</label>
-              <input type="url" id="planta-foto" name="foto_url" placeholder="https://…">
+              <label for="planta-data">Data de Aquisição</label>
+              <input type="date" id="planta-data" name="data_aquisicao" required>
             </div>
             <div class="form-group">
-              <label for="planta-foto-file">Ou carregar foto do PC</label>
+              <label for="planta-foto-file">Foto (carregar do PC)</label>
               <input type="file" id="planta-foto-file" accept="image/*">
+              <input type="hidden" id="planta-foto" name="foto_url">
             </div>
           </div>
           <div class="form-row-3">
             <div class="form-group">
-              <label for="planta-tamanho">Tamanho</label>
-              <input type="text" id="planta-tamanho" name="tamanho" placeholder="ex: 10-30 cm">
+              <label for="planta-tamanho">Tamanho (cm)</label>
+              <input type="text" id="planta-tamanho" name="tamanho" placeholder="ex: 20-30">
             </div>
             <div class="form-group">
               <label for="planta-luminosidade">Luminosidade</label>
-              <select id="planta-luminosidade" name="luminosidade">
-                <option value="">—</option>
-                <option value="Baixa">Baixa</option>
-                <option value="Média">Média</option>
-                <option value="Alta">Alta</option>
-              </select>
+              <input type="text" id="planta-luminosidade" name="luminosidade" list="lista-luminosidade" placeholder="ex: Média">
             </div>
             <div class="form-group">
               <label for="planta-plantio">Plantio</label>
-              <select id="planta-plantio" name="plantio">
-                <option value="">—</option>
-                <option value="Solta">Solta</option>
-                <option value="Atada">Atada</option>
-                <option value="Substrato">Substrato</option>
-              </select>
+              <input type="text" id="planta-plantio" name="plantio" list="lista-plantio" placeholder="ex: Substrato">
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="planta-temp-min">Temp. Mín (°C)</label>
-              <input type="number" id="planta-temp-min" name="temp_min" step="0.5">
-            </div>
-            <div class="form-group">
-              <label for="planta-temp-max">Temp. Máx (°C)</label>
-              <input type="number" id="planta-temp-max" name="temp_max" step="0.5">
-            </div>
+          <div class="form-group">
+            <label for="planta-temp">Temperatura (°C)</label>
+            <input type="text" id="planta-temp" name="temperatura" placeholder="ex: 20-28">
           </div>
           <div class="form-group" style="display:flex; align-items:center; gap:8px">
             <input type="checkbox" id="planta-resistencia" name="resistencia_peixes" style="width:auto">
@@ -718,8 +726,8 @@
 
       <div class="tbl-wrap">
         <table id="tbl-plantas">
-          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Aquisição</th><th>Ações</th></tr></thead>
-          <tbody><tr><td colspan="6" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Qtd</th><th>Aquisição</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="7" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
         </table>
       </div>
     </section>
@@ -743,13 +751,14 @@
               <input type="text" id="electronica-nome" name="nome" required>
             </div>
             <div class="form-group">
-              <label for="electronica-foto">Foto URL</label>
-              <input type="url" id="electronica-foto" name="foto_url" placeholder="https://…">
+              <label for="electronica-quantidade">Quantidade</label>
+              <input type="number" id="electronica-quantidade" name="quantidade" min="0" step="1" value="1" required>
             </div>
           </div>
           <div class="form-group">
-            <label for="electronica-foto-file">Ou carregar foto do PC</label>
+            <label for="electronica-foto-file">Foto (carregar do PC)</label>
             <input type="file" id="electronica-foto-file" accept="image/*">
+            <input type="hidden" id="electronica-foto" name="foto_url">
           </div>
           <div class="form-group">
             <label for="electronica-descricao">Descrição</label>
@@ -757,22 +766,12 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="electronica-volt-min">Voltagem Mín (V)</label>
-              <input type="number" id="electronica-volt-min" name="volt_min" step="0.1">
+              <label for="electronica-voltagem">Voltagem (V)</label>
+              <input type="text" id="electronica-voltagem" name="voltagem" placeholder="ex: 5-12">
             </div>
             <div class="form-group">
-              <label for="electronica-volt-max">Voltagem Máx (V)</label>
-              <input type="number" id="electronica-volt-max" name="volt_max" step="0.1">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="electronica-tensao-min">Tensão Mín (A)</label>
-              <input type="number" id="electronica-tensao-min" name="tensao_min" step="0.01">
-            </div>
-            <div class="form-group">
-              <label for="electronica-tensao-max">Tensão Máx (A)</label>
-              <input type="number" id="electronica-tensao-max" name="tensao_max" step="0.01">
+              <label for="electronica-tensao">Tensão (A)</label>
+              <input type="text" id="electronica-tensao" name="tensao" placeholder="ex: 0.5-2">
             </div>
           </div>
           <div class="form-group">
@@ -788,8 +787,8 @@
 
       <div class="tbl-wrap">
         <table id="tbl-electronica">
-          <thead><tr><th></th><th>Foto</th><th>Nome</th><th>Descrição</th><th>Ações</th></tr></thead>
-          <tbody><tr><td colspan="5" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+          <thead><tr><th></th><th>Foto</th><th>Nome</th><th>Descrição</th><th>Qtd</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="6" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
         </table>
       </div>
     </section>
@@ -813,13 +812,14 @@
               <input type="text" id="bricolagem-nome" name="nome" required>
             </div>
             <div class="form-group">
-              <label for="bricolagem-foto">Foto URL</label>
-              <input type="url" id="bricolagem-foto" name="foto_url" placeholder="https://…">
+              <label for="bricolagem-quantidade">Quantidade</label>
+              <input type="number" id="bricolagem-quantidade" name="quantidade" min="0" step="1" value="1" required>
             </div>
           </div>
           <div class="form-group">
-            <label for="bricolagem-foto-file">Ou carregar foto do PC</label>
+            <label for="bricolagem-foto-file">Foto (carregar do PC)</label>
             <input type="file" id="bricolagem-foto-file" accept="image/*">
+            <input type="hidden" id="bricolagem-foto" name="foto_url">
           </div>
           <div class="form-group">
             <label for="bricolagem-descricao">Descrição</label>
@@ -838,8 +838,40 @@
 
       <div class="tbl-wrap">
         <table id="tbl-bricolagem">
-          <thead><tr><th></th><th>Foto</th><th>Nome</th><th>Descrição</th><th>Ações</th></tr></thead>
-          <tbody><tr><td colspan="5" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+          <thead><tr><th></th><th>Foto</th><th>Nome</th><th>Descrição</th><th>Qtd</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="6" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         PG-EXPERIÊNCIAS — "livro de experiências"
+    ════════════════════════════════════════ -->
+    <section id="pg-experiencias" class="page-section">
+      <div class="card-header">
+        <h2 class="page-title" style="margin:0">🧪 Experiências</h2>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-experiencias','form-experiencia-inner')">+ Nova Experiência</button>
+      </div>
+
+      <div id="form-experiencias" class="card" hidden style="margin-bottom:20px">
+        <h3 style="font-size:15px; margin-bottom:16px">Nova Experiência / Renomear</h3>
+        <form id="form-experiencia-inner" onsubmit="saveExperiencia(event)">
+          <input type="hidden" id="experiencia-id" name="id">
+          <div class="form-group">
+            <label for="experiencia-titulo">Título</label>
+            <input type="text" id="experiencia-titulo" name="titulo" required placeholder="ex: Experiência com ovos de peixe">
+          </div>
+          <div style="display:flex; gap:8px">
+            <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-experiencias','form-experiencia-inner')">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tbl-wrap">
+        <table id="tbl-experiencias">
+          <thead><tr><th></th><th>Título</th><th>Aberta em</th><th>Estado</th><th>Fechada em</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="6" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
         </table>
       </div>
     </section>
@@ -928,6 +960,11 @@
   </footer>
 </div>
 
+<!-- Lightbox — clicar numa foto amplia-a; clicar nela outra vez ou Esc fecha -->
+<div id="lightbox" hidden onclick="fecharLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <!-- ══════════════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════════════ -->
@@ -983,6 +1020,7 @@
     'pg-lembretes': 'Lembretes', 'pg-marcadores': 'Marcadores',
     'pg-peixes': 'Peixes', 'pg-plantas': 'Plantas',
     'pg-electronica': 'Eletrónica', 'pg-bricolagem': 'Bricolagem',
+    'pg-experiencias': 'Experiências',
     'pg-auditoria': 'Auditoria', 'pg-config': 'Configurações'
   };
 
@@ -995,7 +1033,7 @@
     if (link) link.classList.add('active');
     document.getElementById('topbar-title').textContent = pageTitles[id] || '';
     closeSidebar();
-    const fns = { 'pg-dashboard': loadDashboard, 'pg-lembretes': loadLembretes, 'pg-marcadores': loadMarcadores, 'pg-peixes': loadPeixes, 'pg-plantas': loadPlantas, 'pg-electronica': loadElectronica, 'pg-bricolagem': loadBricolagem, 'pg-auditoria': loadAuditoria, 'pg-config': loadConfig };
+    const fns = { 'pg-dashboard': loadDashboard, 'pg-lembretes': loadLembretes, 'pg-marcadores': loadMarcadores, 'pg-peixes': loadPeixes, 'pg-plantas': loadPlantas, 'pg-electronica': loadElectronica, 'pg-bricolagem': loadBricolagem, 'pg-experiencias': loadExperiencias, 'pg-auditoria': loadAuditoria, 'pg-config': loadConfig };
     if (fns[id]) fns[id]();
   }
   window.showPage = showPage;
@@ -1003,7 +1041,7 @@
   document.querySelectorAll('.nav-link[data-page]').forEach(l => {
     l.addEventListener('click', async () => {
       const id = l.dataset.page;
-      if (id !== 'pg-login' && ['pg-lembretes','pg-marcadores','pg-peixes','pg-plantas','pg-electronica','pg-bricolagem','pg-auditoria','pg-config'].includes(id) && !(await estaLogado())) {
+      if (id !== 'pg-login' && ['pg-lembretes','pg-marcadores','pg-peixes','pg-plantas','pg-electronica','pg-bricolagem','pg-experiencias','pg-auditoria','pg-config'].includes(id) && !(await estaLogado())) {
         showPage('pg-login'); return;
       }
       showPage(id);
@@ -1084,10 +1122,43 @@
     return data.publicUrl;
   }
 
+  // Extrai o caminho dentro do bucket "uploads" a partir do URL público
+  // devolvido pelo getPublicUrl (ex: ".../object/public/uploads/peixes/xxx.jpg"
+  // -> "peixes/xxx.jpg"). Devolve null se o URL não for deste bucket (ex: um
+  // link externo que o utilizador colou manualmente no campo "Foto URL").
+  function caminhoDoUploadUrl(url) {
+    if (!url) return null;
+    const marcador = '/object/public/uploads/';
+    const i = url.indexOf(marcador);
+    if (i === -1) return null;
+    return decodeURIComponent(url.slice(i + marcador.length));
+  }
+
+  // Apaga um ficheiro do Storage a partir do seu URL público. Usada quando
+  // um registo é eliminado ou quando a foto é substituída por outra, para
+  // não deixar ficheiros órfãos no Supabase Storage.
+  async function apagarFotoAntiga(url) {
+    const path = caminhoDoUploadUrl(url);
+    if (!path) return;
+    try { await db.storage.from('uploads').remove([path]); } catch {}
+  }
+
   function thumb(url, emoji = '📷') {
-    if (url) return `<img src="${url}" class="thumb" onerror="this.style.display='none'">`;
+    if (url) return `<img src="${url}" class="thumb" style="cursor:zoom-in" onclick="abrirLightbox('${url}')" onerror="this.style.display='none'">`;
     return `<div class="thumb-placeholder">${emoji}</div>`;
   }
+
+  /* ── Lightbox — clicar numa foto amplia-a; clicar nela outra vez ou Esc fecha ── */
+  window.abrirLightbox = function(url) {
+    if (!url) return;
+    document.getElementById('lightbox-img').src = url;
+    document.getElementById('lightbox').hidden = false;
+  };
+  window.fecharLightbox = function() {
+    document.getElementById('lightbox').hidden = true;
+    document.getElementById('lightbox-img').src = '';
+  };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharLightbox(); });
 
   function fmtDate(d) { return d ? new Date(d).toLocaleDateString('pt-PT') : '—'; }
 
@@ -1149,7 +1220,7 @@
       if (!rows || !rows.length) { el.innerHTML = `<p style="color:var(--muted);font-size:12px">Sem registos.</p>`; return; }
       el.innerHTML = rows.map(row => `
         <div class="preview-card">
-          ${row.foto_url ? `<img src="${row.foto_url}" class="preview-img" onerror="this.style.display='none'">` : `<div class="preview-img-placeholder">${emoji}</div>`}
+          ${row.foto_url ? `<img src="${row.foto_url}" class="preview-img" style="cursor:zoom-in" onclick="abrirLightbox('${row.foto_url}')" onerror="this.style.display='none'">` : `<div class="preview-img-placeholder">${emoji}</div>`}
           <div class="preview-card-body"><h5>${row[labelField] || '—'}</h5></div>
         </div>`).join('');
     } catch {}
@@ -1282,13 +1353,13 @@
       if (error) throw error;
       const tbody = document.querySelector('#tbl-peixes tbody');
       tbody.innerHTML = rows.map(p => {
-        const tBadge = p.temp_min < 22 ? 'temp-badge-cold' : p.temp_min < 27 ? 'temp-badge-warm' : 'temp-badge-hot';
         return `
         <tr>
           <td><button class="btn-icon" onclick="toggleDetail('det-px-${p.id}')">⊕</button></td>
           <td>${thumb(p.foto_url,'🐠')}</td>
           <td>${p.nome_comum}</td>
           <td><em>${p.nome_cientifico || '—'}</em></td>
+          <td style="text-align:center">${p.quantidade ?? 1}</td>
           <td>${fmtDate(p.data_aquisicao)}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editPeixe(${JSON.stringify(p).split('"').join('&quot;')})">✏️</button>
@@ -1296,20 +1367,20 @@
           </td>
         </tr>
         <tr id="det-px-${p.id}" class="detail-row">
-          <td colspan="6">
+          <td colspan="7">
             <div class="detail-grid">
               <div class="detail-item"><label>Origem</label><span>${p.origem||'—'}</span></div>
               <div class="detail-item"><label>Tipo Água</label><span>${p.tipo_agua||'—'}</span></div>
               <div class="detail-item"><label>Nível</label><span>${p.nivel_agua||'—'}</span></div>
-              <div class="detail-item"><label>pH</label><span>${p.ph_min||'?'}–${p.ph_max||'?'}</span></div>
-              <div class="detail-item"><label>Temperatura</label><span class="badge ${tBadge}">${p.temp_min||'?'}–${p.temp_max||'?'}°C</span></div>
+              <div class="detail-item"><label>pH</label><span>${p.ph||'—'}</span></div>
+              <div class="detail-item"><label>Temperatura</label><span>${p.temperatura ? p.temperatura + '°C' : '—'}</span></div>
               <div class="detail-item"><label>Agressividade</label><span>${p.agressividade||'—'}</span></div>
               <div class="detail-item"><label>Reprodução</label><span>${p.reproducao||'—'}</span></div>
               <div class="detail-item" style="grid-column:1/-1"><label>Observações</label><span>${p.observacoes||'—'}</span></div>
             </div>
           </td>
         </tr>`;
-      }).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
+      }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
     } catch { flash('Erro ao carregar peixes.', 'error'); }
   }
 
@@ -1318,13 +1389,15 @@
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd);
     const id = data.id; delete data.id;
-    ['ph_min','ph_max','temp_min','temp_max'].forEach(k => { if (data[k] !== '') data[k] = parseFloat(data[k]); else delete data[k]; });
-    ['tipo_agua','nivel_agua','agressividade','reproducao'].forEach(k => { if (!data[k]) delete data[k]; });
+    data.quantidade = parseInt(data.quantidade, 10) || 1;
+    ['ph','temperatura','tipo_agua','nivel_agua','agressividade','reproducao'].forEach(k => { if (!data[k]) delete data[k]; });
+    const fotoAntiga = data.foto_url;
     const file = document.getElementById('peixe-foto-file').files[0];
     if (file) {
       const url = await uploadFoto(file, 'peixes');
       if (!url) return;
       data.foto_url = url;
+      if (fotoAntiga && fotoAntiga !== url) apagarFotoAntiga(fotoAntiga);
     } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('peixes').update(data).eq('id', id).select()
@@ -1335,8 +1408,10 @@
 
   window.deletePeixe = async function(id) {
     if (!confirm('Eliminar este peixe?')) return;
+    const { data: antigo } = await db.from('peixes').select('foto_url').eq('id', id).maybeSingle();
     const { error } = await db.from('peixes').delete().eq('id', id);
     if (error) { flash('Erro ao eliminar: ' + error.message, 'error'); return; }
+    if (antigo?.foto_url) apagarFotoAntiga(antigo.foto_url);
     flash('Eliminado.', 'warning'); loadPeixes();
   };
 
@@ -1345,12 +1420,11 @@
     document.getElementById('peixe-nome').value = p.nome_comum || '';
     document.getElementById('peixe-cientifico').value = p.nome_cientifico || '';
     document.getElementById('peixe-origem').value = p.origem || '';
+    document.getElementById('peixe-quantidade').value = p.quantidade ?? 1;
     document.getElementById('peixe-data').value = p.data_aquisicao ? p.data_aquisicao.split('T')[0] : '';
     document.getElementById('peixe-foto').value = p.foto_url || '';
-    document.getElementById('peixe-ph-min').value = p.ph_min ?? '';
-    document.getElementById('peixe-ph-max').value = p.ph_max ?? '';
-    document.getElementById('peixe-temp-min').value = p.temp_min ?? '';
-    document.getElementById('peixe-temp-max').value = p.temp_max ?? '';
+    document.getElementById('peixe-ph').value = p.ph || '';
+    document.getElementById('peixe-temp').value = p.temperatura || '';
     document.getElementById('peixe-obs').value = p.observacoes || '';
     document.getElementById('peixe-tipo').value = p.tipo_agua || '';
     document.getElementById('peixe-nivel').value = p.nivel_agua || '';
@@ -1371,6 +1445,7 @@
           <td>${thumb(p.foto_url,'🌿')}</td>
           <td>${p.nome_comum}</td>
           <td><em>${p.nome_cientifico||'—'}</em></td>
+          <td style="text-align:center">${p.quantidade ?? 1}</td>
           <td>${fmtDate(p.data_aquisicao)}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editPlanta(${JSON.stringify(p).split('"').join('&quot;')})">✏️</button>
@@ -1378,18 +1453,18 @@
           </td>
         </tr>
         <tr id="det-pl-${p.id}" class="detail-row">
-          <td colspan="6">
+          <td colspan="7">
             <div class="detail-grid">
               <div class="detail-item"><label>Origem</label><span>${p.origem||'—'}</span></div>
-              <div class="detail-item"><label>Tamanho</label><span>${p.tamanho||'—'}</span></div>
+              <div class="detail-item"><label>Tamanho</label><span>${p.tamanho ? p.tamanho + ' cm' : '—'}</span></div>
               <div class="detail-item"><label>Luminosidade</label><span>${p.luminosidade||'—'}</span></div>
               <div class="detail-item"><label>Plantio</label><span>${p.plantio||'—'}</span></div>
-              <div class="detail-item"><label>Temp.</label><span>${p.temp_min||'?'}–${p.temp_max||'?'}°C</span></div>
+              <div class="detail-item"><label>Temp.</label><span>${p.temperatura ? p.temperatura + '°C' : '—'}</span></div>
               <div class="detail-item"><label>Resist. Peixes</label><span>${p.resistencia_peixes ? '✓ Sim' : '✗ Não'}</span></div>
               <div class="detail-item" style="grid-column:1/-1"><label>Truques</label><span>${p.truques||'—'}</span></div>
             </div>
           </td>
-        </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
+        </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
     } catch { flash('Erro ao carregar plantas.', 'error'); }
   }
 
@@ -1399,12 +1474,15 @@
     const data = Object.fromEntries(fd);
     data.resistencia_peixes = !!fd.get('resistencia_peixes');
     const id = data.id; delete data.id;
-    ['luminosidade','plantio'].forEach(k => { if (!data[k]) delete data[k]; });
+    data.quantidade = parseInt(data.quantidade, 10) || 1;
+    ['luminosidade','plantio','temperatura'].forEach(k => { if (!data[k]) delete data[k]; });
+    const fotoAntiga = data.foto_url;
     const file = document.getElementById('planta-foto-file').files[0];
     if (file) {
       const url = await uploadFoto(file, 'plantas');
       if (!url) return;
       data.foto_url = url;
+      if (fotoAntiga && fotoAntiga !== url) apagarFotoAntiga(fotoAntiga);
     } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('plantas').update(data).eq('id', id).select()
@@ -1415,8 +1493,10 @@
 
   window.deletePlanta = async function(id) {
     if (!confirm('Eliminar esta planta?')) return;
+    const { data: antigo } = await db.from('plantas').select('foto_url').eq('id', id).maybeSingle();
     const { error } = await db.from('plantas').delete().eq('id', id);
     if (error) { flash('Erro ao eliminar: ' + error.message, 'error'); return; }
+    if (antigo?.foto_url) apagarFotoAntiga(antigo.foto_url);
     flash('Eliminado.', 'warning'); loadPlantas();
   };
 
@@ -1425,13 +1505,13 @@
     document.getElementById('planta-nome').value = p.nome_comum || '';
     document.getElementById('planta-cientifico').value = p.nome_cientifico || '';
     document.getElementById('planta-origem').value = p.origem || '';
+    document.getElementById('planta-quantidade').value = p.quantidade ?? 1;
     document.getElementById('planta-foto').value = p.foto_url || '';
     document.getElementById('planta-data').value = p.data_aquisicao ? p.data_aquisicao.split('T')[0] : '';
     document.getElementById('planta-tamanho').value = p.tamanho || '';
     document.getElementById('planta-luminosidade').value = p.luminosidade || '';
     document.getElementById('planta-plantio').value = p.plantio || '';
-    document.getElementById('planta-temp-min').value = p.temp_min || '';
-    document.getElementById('planta-temp-max').value = p.temp_max || '';
+    document.getElementById('planta-temp').value = p.temperatura || '';
     document.getElementById('planta-resistencia').checked = !!p.resistencia_peixes;
     document.getElementById('planta-truques').value = p.truques || '';
     document.getElementById('form-plantas').hidden = false;
@@ -1449,20 +1529,21 @@
           <td>${thumb(c.foto_url,'⚡')}</td>
           <td>${c.nome}</td>
           <td>${c.descricao||'—'}</td>
+          <td style="text-align:center">${c.quantidade ?? 1}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editElectronica(${JSON.stringify(c).split('"').join('&quot;')})">✏️</button>
             <button class="btn btn-danger btn-sm" onclick="deleteElectronica('${c.id}')">🗑</button>
           </td>
         </tr>
         <tr id="det-el-${c.id}" class="detail-row">
-          <td colspan="5">
+          <td colspan="6">
             <div class="detail-grid">
-              <div class="detail-item"><label>Voltagem</label><span>${c.volt_min||'?'}–${c.volt_max||'?'} V</span></div>
-              <div class="detail-item"><label>Tensão</label><span>${c.tensao_min||'?'}–${c.tensao_max||'?'} A</span></div>
+              <div class="detail-item"><label>Voltagem</label><span>${c.voltagem ? c.voltagem + ' V' : '—'}</span></div>
+              <div class="detail-item"><label>Tensão</label><span>${c.tensao ? c.tensao + ' A' : '—'}</span></div>
               <div class="detail-item" style="grid-column:1/-1"><label>Utilidade</label><span>${c.utilidade||'—'}</span></div>
             </div>
           </td>
-        </tr>`).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
+        </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
     } catch { flash('Erro ao carregar eletrónica.', 'error'); }
   }
 
@@ -1471,12 +1552,15 @@
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd);
     const id = data.id; delete data.id;
-    ['volt_min','volt_max','tensao_min','tensao_max'].forEach(k => { if (data[k] !== '') data[k] = parseFloat(data[k]); else delete data[k]; });
+    data.quantidade = parseInt(data.quantidade, 10) || 1;
+    ['voltagem','tensao'].forEach(k => { if (!data[k]) delete data[k]; });
+    const fotoAntiga = data.foto_url;
     const file = document.getElementById('electronica-foto-file').files[0];
     if (file) {
       const url = await uploadFoto(file, 'electronica');
       if (!url) return;
       data.foto_url = url;
+      if (fotoAntiga && fotoAntiga !== url) apagarFotoAntiga(fotoAntiga);
     } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('electronica').update(data).eq('id', id).select()
@@ -1487,20 +1571,21 @@
 
   window.deleteElectronica = async function(id) {
     if (!confirm('Eliminar?')) return;
+    const { data: antigo } = await db.from('electronica').select('foto_url').eq('id', id).maybeSingle();
     const { error } = await db.from('electronica').delete().eq('id', id);
     if (error) { flash('Erro ao eliminar: ' + error.message, 'error'); return; }
+    if (antigo?.foto_url) apagarFotoAntiga(antigo.foto_url);
     flash('Eliminado.', 'warning'); loadElectronica();
   };
 
   window.editElectronica = function(c) {
     document.getElementById('electronica-id').value = c.id;
     document.getElementById('electronica-nome').value = c.nome || '';
+    document.getElementById('electronica-quantidade').value = c.quantidade ?? 1;
     document.getElementById('electronica-foto').value = c.foto_url || '';
     document.getElementById('electronica-descricao').value = c.descricao || '';
-    document.getElementById('electronica-volt-min').value = c.volt_min || '';
-    document.getElementById('electronica-volt-max').value = c.volt_max || '';
-    document.getElementById('electronica-tensao-min').value = c.tensao_min || '';
-    document.getElementById('electronica-tensao-max').value = c.tensao_max || '';
+    document.getElementById('electronica-voltagem').value = c.voltagem || '';
+    document.getElementById('electronica-tensao').value = c.tensao || '';
     document.getElementById('electronica-utilidade').value = c.utilidade || '';
     document.getElementById('form-electronica').hidden = false;
   };
@@ -1517,18 +1602,19 @@
           <td>${thumb(b.foto_url,'🔧')}</td>
           <td>${b.nome}</td>
           <td>${b.descricao||'—'}</td>
+          <td style="text-align:center">${b.quantidade ?? 1}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editBricolagem(${JSON.stringify(b).split('"').join('&quot;')})">✏️</button>
             <button class="btn btn-danger btn-sm" onclick="deleteBricolagem('${b.id}')">🗑</button>
           </td>
         </tr>
         <tr id="det-br-${b.id}" class="detail-row">
-          <td colspan="5">
+          <td colspan="6">
             <div class="detail-grid">
               <div class="detail-item" style="grid-column:1/-1"><label>Utilidade</label><span>${b.utilidade||'—'}</span></div>
             </div>
           </td>
-        </tr>`).join('') || `<tr><td colspan="5" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
+        </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
     } catch { flash('Erro ao carregar bricolagem.', 'error'); }
   }
 
@@ -1537,11 +1623,14 @@
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd);
     const id = data.id; delete data.id;
+    data.quantidade = parseInt(data.quantidade, 10) || 1;
+    const fotoAntiga = data.foto_url;
     const file = document.getElementById('bricolagem-foto-file').files[0];
     if (file) {
       const url = await uploadFoto(file, 'bricolagem');
       if (!url) return;
       data.foto_url = url;
+      if (fotoAntiga && fotoAntiga !== url) apagarFotoAntiga(fotoAntiga);
     } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('bricolagem').update(data).eq('id', id).select()
@@ -1552,18 +1641,218 @@
 
   window.deleteBricolagem = async function(id) {
     if (!confirm('Eliminar?')) return;
+    const { data: antigo } = await db.from('bricolagem').select('foto_url').eq('id', id).maybeSingle();
     const { error } = await db.from('bricolagem').delete().eq('id', id);
     if (error) { flash('Erro ao eliminar: ' + error.message, 'error'); return; }
+    if (antigo?.foto_url) apagarFotoAntiga(antigo.foto_url);
     flash('Eliminado.', 'warning'); loadBricolagem();
   };
 
   window.editBricolagem = function(b) {
     document.getElementById('bricolagem-id').value = b.id;
     document.getElementById('bricolagem-nome').value = b.nome || '';
+    document.getElementById('bricolagem-quantidade').value = b.quantidade ?? 1;
     document.getElementById('bricolagem-foto').value = b.foto_url || '';
     document.getElementById('bricolagem-descricao').value = b.descricao || '';
     document.getElementById('bricolagem-utilidade').value = b.utilidade || '';
     document.getElementById('form-bricolagem').hidden = false;
+  };
+
+  /* ── EXPERIÊNCIAS — "livro de experiências" ──
+     Uma experiência é o livro-mãe (ex: "Experiência com ovos de peixe").
+     Cada registo é uma entrada datada dentro dela, com foto opcional.
+     Fechar é só preencher a Data de Fecho (+ um resumo opcional). */
+  const experienciasCache = {};   // id -> dados da experiência (para não ter de voltar a pedir ao servidor)
+  const corposCarregados = new Set(); // ids cujo corpo (registos) já foi carregado
+
+  function hoje() { return new Date().toISOString().split('T')[0]; }
+
+  async function loadExperiencias() {
+    try {
+      const { data: rows, error } = await db.from('experiencias').select('*').order('data_abertura', { ascending: false });
+      if (error) throw error;
+      const tbody = document.querySelector('#tbl-experiencias tbody');
+      corposCarregados.clear();
+      Object.keys(experienciasCache).forEach(k => delete experienciasCache[k]);
+      rows.forEach(exp => experienciasCache[exp.id] = exp);
+      tbody.innerHTML = rows.map(exp => `
+        <tr>
+          <td><button class="btn-icon" onclick="toggleExperiencia('${exp.id}')">⊕</button></td>
+          <td>${exp.titulo}</td>
+          <td>${fmtDate(exp.data_abertura)}</td>
+          <td id="estado-${exp.id}">${exp.data_fecho ? '<span class="badge badge-success">Fechada</span>' : '<span class="badge badge-warning">Aberta</span>'}</td>
+          <td id="fechada-${exp.id}">${exp.data_fecho ? fmtDate(exp.data_fecho) : '—'}</td>
+          <td class="td-actions">
+            <button class="btn btn-ghost btn-sm" onclick="editExperiencia(${JSON.stringify(exp).split('"').join('&quot;')})">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteExperiencia('${exp.id}')">🗑</button>
+          </td>
+        </tr>
+        <tr id="det-exp-${exp.id}" class="detail-row">
+          <td colspan="6"><div id="exp-body-${exp.id}" style="color:var(--muted);font-size:13px">A carregar registos…</div></td>
+        </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Sem experiências. Cria a primeira com "+ Nova Experiência".</td></tr>`;
+    } catch { flash('Erro ao carregar experiências.', 'error'); }
+  }
+
+  window.toggleExperiencia = function(id) {
+    const row = document.getElementById(`det-exp-${id}`);
+    if (!row) return;
+    row.classList.toggle('open');
+    if (row.classList.contains('open') && !corposCarregados.has(id)) {
+      carregarCorpoExperiencia(id);
+    }
+  };
+
+  async function carregarCorpoExperiencia(id) {
+    const el = document.getElementById(`exp-body-${id}`);
+    if (!el) return;
+    try {
+      const { data: registos, error } = await db.from('experiencia_registos').select('*').eq('experiencia_id', id).order('data_registo', { ascending: true });
+      if (error) throw error;
+      el.innerHTML = corpoExperienciaHTML(experienciasCache[id], registos || []);
+      corposCarregados.add(id);
+    } catch {
+      el.innerHTML = '<span style="color:var(--danger)">Erro ao carregar os registos desta experiência.</span>';
+    }
+  }
+
+  function corpoExperienciaHTML(exp, registos) {
+    const listaRegistos = registos.length ? registos.map(r => `
+      <div class="detail-item" style="grid-column:1/-1; display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--border)">
+        ${thumb(r.foto_url, '🧪')}
+        <div style="flex:1">
+          <label>${fmtDate(r.data_registo)}</label>
+          <span style="display:block; font-weight:400">${r.descricao}</span>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="deleteRegistoExperiencia('${r.id}','${exp.id}')">🗑</button>
+      </div>`).join('') : `<p style="color:var(--muted);font-size:13px">Ainda sem registos — adiciona o primeiro abaixo.</p>`;
+
+    const fechoHTML = exp.data_fecho ? `
+      <div class="detail-item">
+        <label>Fechada em ${fmtDate(exp.data_fecho)} — Resultado</label>
+        <span>${exp.resultado || '—'}</span>
+        <div style="margin-top:8px"><button class="btn btn-ghost btn-sm" onclick="reabrirExperiencia('${exp.id}')">↺ Reabrir experiência</button></div>
+      </div>` : `
+      <form onsubmit="fecharExperiencia(event,'${exp.id}')" style="margin-top:4px">
+        <h4 style="font-size:13px; margin-bottom:8px">Fechar experiência</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fecho-data-${exp.id}">Data de Fecho</label>
+            <input type="date" id="fecho-data-${exp.id}" value="${hoje()}" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fecho-resultado-${exp.id}">Resultado / Resumo final (opcional)</label>
+          <textarea id="fecho-resultado-${exp.id}" rows="2" placeholder="ex: Correu bem, os ovos eclodiram ao 5º dia."></textarea>
+        </div>
+        <button type="submit" class="btn btn-danger btn-sm">🔒 Fechar Experiência</button>
+      </form>`;
+
+    return `
+      <h4 style="font-size:13px; margin-bottom:8px">Registos</h4>
+      <div class="detail-grid" style="margin-bottom:16px">${listaRegistos}</div>
+      <form onsubmit="novoRegistoExperiencia(event,'${exp.id}')" style="margin-bottom:16px">
+        <h4 style="font-size:13px; margin-bottom:8px">+ Novo registo</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="registo-data-${exp.id}">Data</label>
+            <input type="date" id="registo-data-${exp.id}" value="${hoje()}" required>
+          </div>
+          <div class="form-group">
+            <label for="registo-foto-${exp.id}">Foto (opcional)</label>
+            <input type="file" id="registo-foto-${exp.id}" accept="image/*">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="registo-desc-${exp.id}">Registo</label>
+          <textarea id="registo-desc-${exp.id}" rows="2" required placeholder="ex: Os ovos mantêm a cor e a água continua límpida."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">+ Adicionar Registo</button>
+      </form>
+      <hr style="border:none; border-top:1px solid var(--border); margin:16px 0">
+      ${fechoHTML}`;
+  }
+
+  window.novoRegistoExperiencia = async function(e, expId) {
+    e.preventDefault();
+    const dataEl = document.getElementById(`registo-data-${expId}`);
+    const descEl = document.getElementById(`registo-desc-${expId}`);
+    const fotoEl = document.getElementById(`registo-foto-${expId}`);
+    const registo = { experiencia_id: expId, data_registo: dataEl.value, descricao: descEl.value };
+    const file = fotoEl.files[0];
+    if (file) {
+      const url = await uploadFoto(file, 'experiencias');
+      if (!url) return;
+      registo.foto_url = url;
+    }
+    const { error } = await db.from('experiencia_registos').insert(registo);
+    if (error) { flash('Erro ao guardar o registo: ' + error.message, 'error'); return; }
+    flash('Registo adicionado!');
+    corposCarregados.delete(expId);
+    carregarCorpoExperiencia(expId);
+  };
+
+  window.deleteRegistoExperiencia = async function(id, expId) {
+    if (!confirm('Eliminar este registo?')) return;
+    const { data: antigo } = await db.from('experiencia_registos').select('foto_url').eq('id', id).maybeSingle();
+    const { error } = await db.from('experiencia_registos').delete().eq('id', id);
+    if (error) { flash('Erro ao eliminar: ' + error.message, 'error'); return; }
+    if (antigo?.foto_url) apagarFotoAntiga(antigo.foto_url);
+    flash('Eliminado.', 'warning');
+    corposCarregados.delete(expId);
+    carregarCorpoExperiencia(expId);
+  };
+
+  window.fecharExperiencia = async function(e, expId) {
+    e.preventDefault();
+    const data_fecho = document.getElementById(`fecho-data-${expId}`).value;
+    const resultado = document.getElementById(`fecho-resultado-${expId}`).value || null;
+    const { error } = await db.from('experiencias').update({ data_fecho, resultado }).eq('id', expId).select();
+    if (error) { flash('Erro ao fechar: ' + error.message, 'error'); return; }
+    flash('Experiência fechada!');
+    experienciasCache[expId] = { ...experienciasCache[expId], data_fecho, resultado };
+    document.getElementById(`estado-${expId}`).innerHTML = '<span class="badge badge-success">Fechada</span>';
+    document.getElementById(`fechada-${expId}`).textContent = fmtDate(data_fecho);
+    corposCarregados.delete(expId);
+    carregarCorpoExperiencia(expId);
+  };
+
+  window.reabrirExperiencia = async function(expId) {
+    if (!confirm('Reabrir esta experiência?')) return;
+    const { error } = await db.from('experiencias').update({ data_fecho: null, resultado: null }).eq('id', expId).select();
+    if (error) { flash('Erro ao reabrir: ' + error.message, 'error'); return; }
+    flash('Experiência reaberta!');
+    experienciasCache[expId] = { ...experienciasCache[expId], data_fecho: null, resultado: null };
+    document.getElementById(`estado-${expId}`).innerHTML = '<span class="badge badge-warning">Aberta</span>';
+    document.getElementById(`fechada-${expId}`).textContent = '—';
+    corposCarregados.delete(expId);
+    carregarCorpoExperiencia(expId);
+  };
+
+  window.saveExperiencia = async function(e) {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd);
+    const id = data.id; delete data.id;
+    const { error } = id
+      ? await db.from('experiencias').update(data).eq('id', id).select()
+      : await db.from('experiencias').insert(data).select();
+    if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
+    flash('Experiência guardada!'); fecharForm('form-experiencias','form-experiencia-inner'); loadExperiencias();
+  };
+
+  window.deleteExperiencia = async function(id) {
+    if (!confirm('Eliminar esta experiência e todos os seus registos?')) return;
+    const { data: registos } = await db.from('experiencia_registos').select('foto_url').eq('experiencia_id', id);
+    const { error } = await db.from('experiencias').delete().eq('id', id);
+    if (error) { flash('Erro ao eliminar: ' + error.message, 'error'); return; }
+    (registos || []).forEach(r => { if (r.foto_url) apagarFotoAntiga(r.foto_url); });
+    flash('Eliminado.', 'warning'); loadExperiencias();
+  };
+
+  window.editExperiencia = function(exp) {
+    document.getElementById('experiencia-id').value = exp.id;
+    document.getElementById('experiencia-titulo').value = exp.titulo || '';
+    document.getElementById('form-experiencias').hidden = false;
   };
 
   /* ── AUDITORIA ── */
@@ -1598,10 +1887,12 @@
       if (error) throw error;
       if (rows && rows.length) {
         const c = rows[0];
-        ['titulo','subtitulo','logo_url','email_remetente','smtp_host','smtp_port'].forEach(k => {
-          const el = document.getElementById(`cfg-${k.replace('_','-').replace('_','-')}`);
-          if (el) el.value = c[k] || '';
-        });
+        document.getElementById('cfg-titulo').value = c.titulo || '';
+        document.getElementById('cfg-subtitulo').value = c.subtitulo || '';
+        document.getElementById('cfg-logo').value = c.logo_url || '';
+        document.getElementById('cfg-email-rem').value = c.email_remetente || '';
+        document.getElementById('cfg-smtp-host').value = c.smtp_host || '';
+        document.getElementById('cfg-smtp-port').value = c.smtp_port || '';
       }
     } catch {}
   }
@@ -1619,11 +1910,13 @@
       if (pwError) { flash('Erro ao alterar password: ' + pwError.message, 'error'); return; }
     }
     if (data.smtp_port) data.smtp_port = parseInt(data.smtp_port, 10); else delete data.smtp_port;
+    const logoAntigo = data.logo_url;
     const logoFile = document.getElementById('cfg-logo-file').files[0];
     if (logoFile) {
       const url = await uploadFoto(logoFile, 'config');
       if (!url) return;
       data.logo_url = url;
+      if (logoAntigo && logoAntigo !== url) apagarFotoAntiga(logoAntigo);
     } else if (!data.logo_url) delete data.logo_url;
     const { error } = await db.from('config').update(data).eq('id', 1);
     if (error) { flash('Erro ao guardar configurações: ' + error.message, 'error'); return; }
