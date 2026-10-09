@@ -406,7 +406,7 @@
     <section id="pg-lembretes" class="page-section">
       <div class="card-header">
         <h2 class="page-title" style="margin:0">📌 Lembretes</h2>
-        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-lembretes')">+ Novo Lembrete</button>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-lembretes','form-lembrete-inner')">+ Novo Lembrete</button>
       </div>
 
       <div id="form-lembretes" class="card" hidden style="margin-bottom:20px">
@@ -439,7 +439,7 @@
           </div>
           <div style="display:flex; gap:8px">
             <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleForm('form-lembretes')">Cancelar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-lembretes','form-lembrete-inner')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -458,7 +458,7 @@
     <section id="pg-marcadores" class="page-section">
       <div class="card-header">
         <h2 class="page-title" style="margin:0">🔗 Marcadores</h2>
-        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-marcadores')">+ Novo Marcador</button>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-marcadores','form-marcador-inner')">+ Novo Marcador</button>
       </div>
 
       <div id="form-marcadores" class="card" hidden style="margin-bottom:20px">
@@ -491,7 +491,7 @@
           </div>
           <div style="display:flex; gap:8px">
             <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleForm('form-marcadores')">Cancelar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-marcadores','form-marcador-inner')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -510,7 +510,7 @@
     <section id="pg-peixes" class="page-section">
       <div class="card-header">
         <h2 class="page-title" style="margin:0">🐠 Peixes</h2>
-        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-peixes')">+ Novo Peixe</button>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-peixes','form-peixe-inner')">+ Novo Peixe</button>
       </div>
 
       <div id="form-peixes" class="card" hidden style="margin-bottom:20px">
@@ -611,7 +611,7 @@
           </div>
           <div style="display:flex; gap:8px">
             <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleForm('form-peixes')">Cancelar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-peixes','form-peixe-inner')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -630,7 +630,7 @@
     <section id="pg-plantas" class="page-section">
       <div class="card-header">
         <h2 class="page-title" style="margin:0">🌿 Plantas</h2>
-        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-plantas')">+ Nova Planta</button>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-plantas','form-planta-inner')">+ Nova Planta</button>
       </div>
 
       <div id="form-plantas" class="card" hidden style="margin-bottom:20px">
@@ -711,7 +711,7 @@
           </div>
           <div style="display:flex; gap:8px">
             <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleForm('form-plantas')">Cancelar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-plantas','form-planta-inner')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -730,7 +730,7 @@
     <section id="pg-electronica" class="page-section">
       <div class="card-header">
         <h2 class="page-title" style="margin:0">⚡ Eletrónica</h2>
-        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-electronica')">+ Novo Item</button>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-electronica','form-electronica-inner')">+ Novo Item</button>
       </div>
 
       <div id="form-electronica" class="card" hidden style="margin-bottom:20px">
@@ -781,7 +781,7 @@
           </div>
           <div style="display:flex; gap:8px">
             <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleForm('form-electronica')">Cancelar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-electronica','form-electronica-inner')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -800,7 +800,7 @@
     <section id="pg-bricolagem" class="page-section">
       <div class="card-header">
         <h2 class="page-title" style="margin:0">🔧 Bricolagem</h2>
-        <button class="btn btn-primary btn-sm" onclick="toggleForm('form-bricolagem')">+ Novo Item</button>
+        <button class="btn btn-primary btn-sm" onclick="abrirNovo('form-bricolagem','form-bricolagem-inner')">+ Novo Item</button>
       </div>
 
       <div id="form-bricolagem" class="card" hidden style="margin-bottom:20px">
@@ -831,7 +831,7 @@
           </div>
           <div style="display:flex; gap:8px">
             <button type="submit" class="btn btn-primary btn-sm">💾 Guardar</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="toggleForm('form-bricolagem')">Cancelar</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fecharForm('form-bricolagem','form-bricolagem-inner')">Cancelar</button>
           </div>
         </form>
       </div>
@@ -1049,9 +1049,28 @@
   db.auth.onAuthStateChange((_event, _session) => { updateAuthUI(); });
 
   /* ── Utilities ── */
-  window.toggleForm = function(id) {
-    const el = document.getElementById(id);
-    el.hidden = !el.hidden;
+  // Abre um formulário SEMPRE em branco (limpa o campo oculto "id" e todos
+  // os outros campos) — usado pelo botão "+ Novo X". Importante: nunca usar
+  // um simples "toggle" aqui, porque se o formulário tivesse sido deixado
+  // aberto por um "editar" anterior, o "id" antigo ficava lá e o próximo
+  // "Guardar" fazia UPDATE ao registo antigo em vez de criar um novo.
+  window.abrirNovo = function(wrapperId, formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+      form.reset();
+      const idField = form.querySelector('input[name="id"]');
+      if (idField) idField.value = '';
+    }
+    document.getElementById(wrapperId).hidden = false;
+  };
+
+  // Fecha e limpa um formulário — usado pelo botão "Cancelar" e depois de
+  // gravar com sucesso. Sempre força o "hidden" para o estado certo (nunca
+  // um toggle) e limpa os campos para não deixar nada residual.
+  window.fecharForm = function(wrapperId, formId) {
+    const form = document.getElementById(formId);
+    if (form) form.reset();
+    document.getElementById(wrapperId).hidden = true;
   };
 
   /* ── Upload de fotos para o Supabase Storage (bucket "uploads") ── */
@@ -1179,7 +1198,7 @@
       ? await db.from('lembretes').update(data).eq('id', id).select()
       : await db.from('lembretes').insert(data).select();
     if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
-    flash('Lembrete guardado!'); toggleForm('form-lembretes'); e.target.reset(); loadLembretes();
+    flash('Lembrete guardado!'); fecharForm('form-lembretes','form-lembrete-inner'); loadLembretes();
   };
 
   window.deleteLembrete = async function(id) {
@@ -1236,7 +1255,7 @@
       ? await db.from('marcadores').update(data).eq('id', id).select()
       : await db.from('marcadores').insert(data).select();
     if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
-    flash('Marcador guardado!'); toggleForm('form-marcadores'); e.target.reset(); loadMarcadores();
+    flash('Marcador guardado!'); fecharForm('form-marcadores','form-marcador-inner'); loadMarcadores();
   };
 
   window.deleteMarcador = async function(id) {
@@ -1311,7 +1330,7 @@
       ? await db.from('peixes').update(data).eq('id', id).select()
       : await db.from('peixes').insert(data).select();
     if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
-    flash('Peixe guardado!'); toggleForm('form-peixes'); e.target.reset(); loadPeixes();
+    flash('Peixe guardado!'); fecharForm('form-peixes','form-peixe-inner'); loadPeixes();
   };
 
   window.deletePeixe = async function(id) {
@@ -1322,12 +1341,17 @@
   };
 
   window.editPeixe = function(p) {
-    ['id','nome_comum','nome_cientifico','origem','foto_url','ph_min','ph_max','temp_min','temp_max','observacoes'].forEach(k => {
-      const el = document.getElementById(`peixe-${k.replace('_','-').replace('_','-')}`);
-      if (el) el.value = p[k] || '';
-    });
     document.getElementById('peixe-id').value = p.id;
+    document.getElementById('peixe-nome').value = p.nome_comum || '';
+    document.getElementById('peixe-cientifico').value = p.nome_cientifico || '';
+    document.getElementById('peixe-origem').value = p.origem || '';
     document.getElementById('peixe-data').value = p.data_aquisicao ? p.data_aquisicao.split('T')[0] : '';
+    document.getElementById('peixe-foto').value = p.foto_url || '';
+    document.getElementById('peixe-ph-min').value = p.ph_min ?? '';
+    document.getElementById('peixe-ph-max').value = p.ph_max ?? '';
+    document.getElementById('peixe-temp-min').value = p.temp_min ?? '';
+    document.getElementById('peixe-temp-max').value = p.temp_max ?? '';
+    document.getElementById('peixe-obs').value = p.observacoes || '';
     document.getElementById('peixe-tipo').value = p.tipo_agua || '';
     document.getElementById('peixe-nivel').value = p.nivel_agua || '';
     document.getElementById('peixe-agressividade').value = p.agressividade || '';
@@ -1386,7 +1410,7 @@
       ? await db.from('plantas').update(data).eq('id', id).select()
       : await db.from('plantas').insert(data).select();
     if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
-    flash('Planta guardada!'); toggleForm('form-plantas'); e.target.reset(); loadPlantas();
+    flash('Planta guardada!'); fecharForm('form-plantas','form-planta-inner'); loadPlantas();
   };
 
   window.deletePlanta = async function(id) {
@@ -1458,7 +1482,7 @@
       ? await db.from('electronica').update(data).eq('id', id).select()
       : await db.from('electronica').insert(data).select();
     if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
-    flash('Guardado!'); toggleForm('form-electronica'); e.target.reset(); loadElectronica();
+    flash('Guardado!'); fecharForm('form-electronica','form-electronica-inner'); loadElectronica();
   };
 
   window.deleteElectronica = async function(id) {
@@ -1523,7 +1547,7 @@
       ? await db.from('bricolagem').update(data).eq('id', id).select()
       : await db.from('bricolagem').insert(data).select();
     if (error) { flash('Erro ao guardar: ' + error.message, 'error'); return; }
-    flash('Guardado!'); toggleForm('form-bricolagem'); e.target.reset(); loadBricolagem();
+    flash('Guardado!'); fecharForm('form-bricolagem','form-bricolagem-inner'); loadBricolagem();
   };
 
   window.deleteBricolagem = async function(id) {
