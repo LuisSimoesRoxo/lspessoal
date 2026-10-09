@@ -186,12 +186,12 @@ begin
   if TG_OP = 'INSERT' then
     insert into auditoria (acao, tabela, campo_alterado, valor_antes, valor_depois)
     values ('INSERT', TG_TABLE_NAME, 'nome', '—', coalesce(
-      (new::json->>'nome_comum'), (new::json->>'nome'), (new::json->>'descricao'), (new::json->>'url'), '(novo registo)'
+      (row_to_json(new)->>'nome_comum'), (row_to_json(new)->>'nome'), (row_to_json(new)->>'descricao'), (row_to_json(new)->>'url'), '(novo registo)'
     ));
   elsif TG_OP = 'DELETE' then
     insert into auditoria (acao, tabela, campo_alterado, valor_antes, valor_depois)
     values ('DELETE', TG_TABLE_NAME, '—', coalesce(
-      (old::json->>'nome_comum'), (old::json->>'nome'), (old::json->>'descricao'), '(registo eliminado)'
+      (row_to_json(old)->>'nome_comum'), (row_to_json(old)->>'nome'), (row_to_json(old)->>'descricao'), '(registo eliminado)'
     ), '—');
   elsif TG_OP = 'UPDATE' then
     -- registar cada campo alterado separadamente

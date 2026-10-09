@@ -534,37 +534,45 @@
             </div>
             <div class="form-group">
               <label for="peixe-data">Data de Aquisição</label>
-              <input type="date" id="peixe-data" name="data_aquisicao">
+              <input type="date" id="peixe-data" name="data_aquisicao" required>
             </div>
           </div>
-          <div class="form-group">
-            <label for="peixe-foto">Foto URL</label>
-            <input type="url" id="peixe-foto" name="foto_url" placeholder="https://…">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="peixe-foto">Foto URL</label>
+              <input type="url" id="peixe-foto" name="foto_url" placeholder="https://…">
+            </div>
+            <div class="form-group">
+              <label for="peixe-foto-file">Ou carregar foto do PC</label>
+              <input type="file" id="peixe-foto-file" accept="image/*">
+            </div>
           </div>
           <div class="form-row-3">
             <div class="form-group">
               <label for="peixe-tipo">Tipo de Água</label>
               <select id="peixe-tipo" name="tipo_agua">
-                <option value="doce">Doce</option>
-                <option value="salgada">Salgada</option>
-                <option value="salobra">Salobra</option>
+                <option value="">—</option>
+                <option value="Água Doce">Água Doce</option>
+                <option value="Água Salgada">Água Salgada</option>
+                <option value="Salobra">Salobra</option>
               </select>
             </div>
             <div class="form-group">
               <label for="peixe-nivel">Nível de Água</label>
               <select id="peixe-nivel" name="nivel_agua">
-                <option value="superior">Superior</option>
-                <option value="medio">Médio</option>
-                <option value="inferior">Inferior</option>
-                <option value="todos">Todos</option>
+                <option value="">—</option>
+                <option value="Superfície">Superfície</option>
+                <option value="Intermédio">Intermédio</option>
+                <option value="Fundo">Fundo</option>
               </select>
             </div>
             <div class="form-group">
               <label for="peixe-agressividade">Agressividade</label>
               <select id="peixe-agressividade" name="agressividade">
-                <option value="pacifico">Pacífico</option>
-                <option value="semi-agressivo">Semi-agressivo</option>
-                <option value="agressivo">Agressivo</option>
+                <option value="">—</option>
+                <option value="Baixa">Baixa</option>
+                <option value="Média">Média</option>
+                <option value="Alta">Alta</option>
               </select>
             </div>
           </div>
@@ -580,9 +588,10 @@
             <div class="form-group">
               <label for="peixe-reproducao">Reprodução</label>
               <select id="peixe-reproducao" name="reproducao">
-                <option value="oviparo">Ovíparo</option>
-                <option value="viviparo">Vivíparo</option>
-                <option value="mouthbrooder">Mouthbrooder</option>
+                <option value="">—</option>
+                <option value="Simples">Simples</option>
+                <option value="Moderada">Moderada</option>
+                <option value="Complicada">Complicada</option>
               </select>
             </div>
           </div>
@@ -645,12 +654,18 @@
             </div>
             <div class="form-group">
               <label for="planta-data">Data de Aquisição</label>
-              <input type="date" id="planta-data" name="data_aquisicao">
+              <input type="date" id="planta-data" name="data_aquisicao" required>
             </div>
           </div>
-          <div class="form-group">
-            <label for="planta-foto">Foto URL</label>
-            <input type="url" id="planta-foto" name="foto_url" placeholder="https://…">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="planta-foto">Foto URL</label>
+              <input type="url" id="planta-foto" name="foto_url" placeholder="https://…">
+            </div>
+            <div class="form-group">
+              <label for="planta-foto-file">Ou carregar foto do PC</label>
+              <input type="file" id="planta-foto-file" accept="image/*">
+            </div>
           </div>
           <div class="form-row-3">
             <div class="form-group">
@@ -660,18 +675,19 @@
             <div class="form-group">
               <label for="planta-luminosidade">Luminosidade</label>
               <select id="planta-luminosidade" name="luminosidade">
-                <option value="baixa">Baixa</option>
-                <option value="media">Média</option>
-                <option value="alta">Alta</option>
+                <option value="">—</option>
+                <option value="Baixa">Baixa</option>
+                <option value="Média">Média</option>
+                <option value="Alta">Alta</option>
               </select>
             </div>
             <div class="form-group">
               <label for="planta-plantio">Plantio</label>
               <select id="planta-plantio" name="plantio">
-                <option value="substrato">Substrato</option>
-                <option value="flutuante">Flutuante</option>
-                <option value="ancorada">Ancorada</option>
-                <option value="epifita">Epífita</option>
+                <option value="">—</option>
+                <option value="Solta">Solta</option>
+                <option value="Atada">Atada</option>
+                <option value="Substrato">Substrato</option>
               </select>
             </div>
           </div>
@@ -730,6 +746,10 @@
               <label for="electronica-foto">Foto URL</label>
               <input type="url" id="electronica-foto" name="foto_url" placeholder="https://…">
             </div>
+          </div>
+          <div class="form-group">
+            <label for="electronica-foto-file">Ou carregar foto do PC</label>
+            <input type="file" id="electronica-foto-file" accept="image/*">
           </div>
           <div class="form-group">
             <label for="electronica-descricao">Descrição</label>
@@ -798,6 +818,10 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="bricolagem-foto-file">Ou carregar foto do PC</label>
+            <input type="file" id="bricolagem-foto-file" accept="image/*">
+          </div>
+          <div class="form-group">
             <label for="bricolagem-descricao">Descrição</label>
             <textarea id="bricolagem-descricao" name="descricao" rows="2"></textarea>
           </div>
@@ -857,6 +881,10 @@
           <div class="form-group">
             <label for="cfg-logo">Logo URL</label>
             <input type="url" id="cfg-logo" name="logo_url" placeholder="https://…">
+          </div>
+          <div class="form-group">
+            <label for="cfg-logo-file">Ou carregar logo do PC</label>
+            <input type="file" id="cfg-logo-file" accept="image/*">
           </div>
           <div class="form-group">
             <label for="cfg-email-rem">Email Remetente</label>
@@ -967,7 +995,7 @@
     if (link) link.classList.add('active');
     document.getElementById('topbar-title').textContent = pageTitles[id] || '';
     closeSidebar();
-    const fns = { 'pg-lembretes': loadLembretes, 'pg-marcadores': loadMarcadores, 'pg-peixes': loadPeixes, 'pg-plantas': loadPlantas, 'pg-electronica': loadElectronica, 'pg-bricolagem': loadBricolagem, 'pg-auditoria': loadAuditoria, 'pg-config': loadConfig };
+    const fns = { 'pg-dashboard': loadDashboard, 'pg-lembretes': loadLembretes, 'pg-marcadores': loadMarcadores, 'pg-peixes': loadPeixes, 'pg-plantas': loadPlantas, 'pg-electronica': loadElectronica, 'pg-bricolagem': loadBricolagem, 'pg-auditoria': loadAuditoria, 'pg-config': loadConfig };
     if (fns[id]) fns[id]();
   }
   window.showPage = showPage;
@@ -1026,6 +1054,17 @@
     el.hidden = !el.hidden;
   };
 
+  /* ── Upload de fotos para o Supabase Storage (bucket "uploads") ── */
+  async function uploadFoto(file, pasta) {
+    if (!file) return null;
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    const path = `${pasta}/${crypto.randomUUID()}.${ext}`;
+    const { error } = await db.storage.from('uploads').upload(path, file, { upsert: false, cacheControl: '3600' });
+    if (error) { flash('Erro ao enviar imagem: ' + error.message, 'error'); return null; }
+    const { data } = db.storage.from('uploads').getPublicUrl(path);
+    return data.publicUrl;
+  }
+
   function thumb(url, emoji = '📷') {
     if (url) return `<img src="${url}" class="thumb" onerror="this.style.display='none'">`;
     return `<div class="thumb-placeholder">${emoji}</div>`;
@@ -1059,16 +1098,20 @@
       }
     } catch {}
 
-    // Alertas
+    // Alertas — activos sempre; resolvidos ficam visíveis (riscados) só durante 8h após resolvidos
     try {
-      const { data: rows, error } = await db.from('lembretes').select('descricao,data_validade,resolvido').eq('resolvido', false);
+      const cutoff = new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString();
+      const { data: rows, error } = await db.from('lembretes')
+        .select('descricao,data_validade,resolvido,resolvido_em')
+        .or(`resolvido.eq.false,resolvido_em.gte.${cutoff}`)
+        .order('data_validade', { ascending: true });
       if (error) throw error;
       const tbody = document.querySelector('#tbl-dash-alertas tbody');
       tbody.innerHTML = rows.length ? rows.map(a => `
-        <tr>
-          <td>${a.descricao}</td>
-          <td>${fmtDate(a.data_validade)}</td>
-          <td><span class="badge badge-warning">Activo</span></td>
+        <tr${a.resolvido ? ' style="opacity:.55"' : ''}>
+          <td${a.resolvido ? ' style="text-decoration:line-through"' : ''}>${a.descricao}</td>
+          <td${a.resolvido ? ' style="text-decoration:line-through"' : ''}>${fmtDate(a.data_validade)}</td>
+          <td>${a.resolvido ? '<span class="badge badge-success">Resolvido</span>' : '<span class="badge badge-warning">Activo</span>'}</td>
         </tr>`).join('') : `<tr><td colspan="3" style="text-align:center;color:var(--muted)">Sem alertas activos.</td></tr>`;
     } catch {}
 
@@ -1108,15 +1151,15 @@
           <td>${l.resolvido ? `<span class="badge badge-success">Resolvido</span>` : `<span class="badge badge-warning">Activo</span>`}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editLembrete(${JSON.stringify(l).split('"').join('&quot;')})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteLembrete(${l.id})">🗑</button>
-            ${!l.resolvido ? `<button class="btn btn-primary btn-sm" onclick="resolverLembrete(${l.id})">✔</button>` : ''}
+            <button class="btn btn-danger btn-sm" onclick="deleteLembrete('${l.id}')">🗑</button>
+            ${!l.resolvido ? `<button class="btn btn-primary btn-sm" onclick="resolverLembrete('${l.id}')">✔</button>` : ''}
           </td>
         </tr>
         <tr id="det-lem-${l.id}" class="detail-row">
           <td colspan="6">
             <div class="detail-grid">
               <div class="detail-item"><label>Destinatários</label><span>${l.destinatarios || '—'}</span></div>
-              <div class="detail-item"><label>Data Criação</label><span>${fmtDate(l.created_at)}</span></div>
+              <div class="detail-item"><label>Data Criação</label><span>${fmtDate(l.data_criacao)}</span></div>
               <div class="detail-item"><label>Resolvido em</label><span>${fmtDate(l.resolvido_em)}</span></div>
             </div>
           </td>
@@ -1177,7 +1220,7 @@
           <td>${m.ordem ?? 0}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editMarcador(${JSON.stringify(m).split('"').join('&quot;')})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteMarcador(${m.id})">🗑</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteMarcador('${m.id}')">🗑</button>
           </td>
         </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Sem marcadores.</td></tr>`;
     } catch { flash('Erro ao carregar marcadores.', 'error'); }
@@ -1230,7 +1273,7 @@
           <td>${fmtDate(p.data_aquisicao)}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editPeixe(${JSON.stringify(p).split('"').join('&quot;')})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deletePeixe(${p.id})">🗑</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePeixe('${p.id}')">🗑</button>
           </td>
         </tr>
         <tr id="det-px-${p.id}" class="detail-row">
@@ -1257,8 +1300,13 @@
     const data = Object.fromEntries(fd);
     const id = data.id; delete data.id;
     ['ph_min','ph_max','temp_min','temp_max'].forEach(k => { if (data[k] !== '') data[k] = parseFloat(data[k]); else delete data[k]; });
-    if (!data.foto_url) delete data.foto_url;
-    if (!data.data_aquisicao) delete data.data_aquisicao;
+    ['tipo_agua','nivel_agua','agressividade','reproducao'].forEach(k => { if (!data[k]) delete data[k]; });
+    const file = document.getElementById('peixe-foto-file').files[0];
+    if (file) {
+      const url = await uploadFoto(file, 'peixes');
+      if (!url) return;
+      data.foto_url = url;
+    } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('peixes').update(data).eq('id', id).select()
       : await db.from('peixes').insert(data).select();
@@ -1280,10 +1328,10 @@
     });
     document.getElementById('peixe-id').value = p.id;
     document.getElementById('peixe-data').value = p.data_aquisicao ? p.data_aquisicao.split('T')[0] : '';
-    document.getElementById('peixe-tipo').value = p.tipo_agua || 'doce';
-    document.getElementById('peixe-nivel').value = p.nivel_agua || 'todos';
-    document.getElementById('peixe-agressividade').value = p.agressividade || 'pacifico';
-    document.getElementById('peixe-reproducao').value = p.reproducao || 'oviparo';
+    document.getElementById('peixe-tipo').value = p.tipo_agua || '';
+    document.getElementById('peixe-nivel').value = p.nivel_agua || '';
+    document.getElementById('peixe-agressividade').value = p.agressividade || '';
+    document.getElementById('peixe-reproducao').value = p.reproducao || '';
     document.getElementById('form-peixes').hidden = false;
   };
 
@@ -1302,7 +1350,7 @@
           <td>${fmtDate(p.data_aquisicao)}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editPlanta(${JSON.stringify(p).split('"').join('&quot;')})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deletePlanta(${p.id})">🗑</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePlanta('${p.id}')">🗑</button>
           </td>
         </tr>
         <tr id="det-pl-${p.id}" class="detail-row">
@@ -1327,8 +1375,13 @@
     const data = Object.fromEntries(fd);
     data.resistencia_peixes = !!fd.get('resistencia_peixes');
     const id = data.id; delete data.id;
-    if (!data.foto_url) delete data.foto_url;
-    if (!data.data_aquisicao) delete data.data_aquisicao;
+    ['luminosidade','plantio'].forEach(k => { if (!data[k]) delete data[k]; });
+    const file = document.getElementById('planta-foto-file').files[0];
+    if (file) {
+      const url = await uploadFoto(file, 'plantas');
+      if (!url) return;
+      data.foto_url = url;
+    } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('plantas').update(data).eq('id', id).select()
       : await db.from('plantas').insert(data).select();
@@ -1351,8 +1404,8 @@
     document.getElementById('planta-foto').value = p.foto_url || '';
     document.getElementById('planta-data').value = p.data_aquisicao ? p.data_aquisicao.split('T')[0] : '';
     document.getElementById('planta-tamanho').value = p.tamanho || '';
-    document.getElementById('planta-luminosidade').value = p.luminosidade || 'media';
-    document.getElementById('planta-plantio').value = p.plantio || 'substrato';
+    document.getElementById('planta-luminosidade').value = p.luminosidade || '';
+    document.getElementById('planta-plantio').value = p.plantio || '';
     document.getElementById('planta-temp-min').value = p.temp_min || '';
     document.getElementById('planta-temp-max').value = p.temp_max || '';
     document.getElementById('planta-resistencia').checked = !!p.resistencia_peixes;
@@ -1374,7 +1427,7 @@
           <td>${c.descricao||'—'}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editElectronica(${JSON.stringify(c).split('"').join('&quot;')})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteElectronica(${c.id})">🗑</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteElectronica('${c.id}')">🗑</button>
           </td>
         </tr>
         <tr id="det-el-${c.id}" class="detail-row">
@@ -1395,7 +1448,12 @@
     const data = Object.fromEntries(fd);
     const id = data.id; delete data.id;
     ['volt_min','volt_max','tensao_min','tensao_max'].forEach(k => { if (data[k] !== '') data[k] = parseFloat(data[k]); else delete data[k]; });
-    if (!data.foto_url) delete data.foto_url;
+    const file = document.getElementById('electronica-foto-file').files[0];
+    if (file) {
+      const url = await uploadFoto(file, 'electronica');
+      if (!url) return;
+      data.foto_url = url;
+    } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('electronica').update(data).eq('id', id).select()
       : await db.from('electronica').insert(data).select();
@@ -1437,7 +1495,7 @@
           <td>${b.descricao||'—'}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editBricolagem(${JSON.stringify(b).split('"').join('&quot;')})">✏️</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteBricolagem(${b.id})">🗑</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteBricolagem('${b.id}')">🗑</button>
           </td>
         </tr>
         <tr id="det-br-${b.id}" class="detail-row">
@@ -1455,7 +1513,12 @@
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd);
     const id = data.id; delete data.id;
-    if (!data.foto_url) delete data.foto_url;
+    const file = document.getElementById('bricolagem-foto-file').files[0];
+    if (file) {
+      const url = await uploadFoto(file, 'bricolagem');
+      if (!url) return;
+      data.foto_url = url;
+    } else if (!data.foto_url) delete data.foto_url;
     const { error } = id
       ? await db.from('bricolagem').update(data).eq('id', id).select()
       : await db.from('bricolagem').insert(data).select();
@@ -1532,6 +1595,12 @@
       if (pwError) { flash('Erro ao alterar password: ' + pwError.message, 'error'); return; }
     }
     if (data.smtp_port) data.smtp_port = parseInt(data.smtp_port, 10); else delete data.smtp_port;
+    const logoFile = document.getElementById('cfg-logo-file').files[0];
+    if (logoFile) {
+      const url = await uploadFoto(logoFile, 'config');
+      if (!url) return;
+      data.logo_url = url;
+    } else if (!data.logo_url) delete data.logo_url;
     const { error } = await db.from('config').update(data).eq('id', 1);
     if (error) { flash('Erro ao guardar configurações: ' + error.message, 'error'); return; }
     flash('Configurações guardadas!');

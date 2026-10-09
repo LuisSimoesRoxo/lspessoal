@@ -46,8 +46,8 @@ supabase functions deploy send-email
 ```
 
 ### 4. GitHub Pages
-1. Settings → Pages → Source: Deploy from branch → main → /public
-2. Adicionar domínio em `public/CNAME`
+1. Settings → Pages → Source: Deploy from branch → main → /docs
+2. Adicionar domínio em `docs/CNAME`
 
 ### 5. Cloudflare DNS
 Adicionar 4 registos A apontando para GitHub Pages:
