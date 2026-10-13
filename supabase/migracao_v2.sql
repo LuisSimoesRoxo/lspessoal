@@ -14,31 +14,48 @@
 --   6. Cria as tabelas novas "experiencias" e "experiencia_registos"
 --
 -- É seguro correr isto mais do que uma vez (todos os passos são idempotentes).
--- Os valores que já tinhas em min/máx são juntados automaticamente no novo
--- campo (ex: temp_min=24, temp_max=28 -> temperatura="24-28") antes de as
--- colunas antigas serem eliminadas — não perdes dados já guardados.
+-- Se a tua base de dados ainda tiver as colunas antigas separadas (ex:
+-- temp_min/temp_max), os valores são juntados automaticamente no novo campo
+-- (ex: temp_min=24, temp_max=28 -> temperatura="24-28") antes de serem
+-- eliminadas, sem perder dados. Se essas colunas já não existirem (ex: a
+-- tua base de dados já usa um único campo "temperatura"/"ph"/etc.), esse
+-- passo é simplesmente ignorado, em vez de dar erro.
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
 -- PEIXES
+-- (os blocos "DO" só fundem temp_min/max, ph_min/max, etc. SE essas colunas
+--  antigas ainda existirem nesta base de dados — nalgumas instalações estes
+--  campos já nasceram como um único campo de texto, caso em que o bloco
+--  simplesmente não faz nada, em vez de dar erro "column does not exist")
 -- -----------------------------------------------------------------------------
 alter table peixes add column if not exists quantidade integer not null default 1;
 
 alter table peixes add column if not exists temperatura text;
-update peixes set temperatura =
-  coalesce(temp_min::text, '') ||
-  (case when temp_min is not null and temp_max is not null then '-' else '' end) ||
-  coalesce(temp_max::text, '')
-  where temperatura is null and (temp_min is not null or temp_max is not null);
+do $$ begin
+  if exists (select 1 from information_schema.columns where table_name='peixes' and column_name='temp_min')
+     and exists (select 1 from information_schema.columns where table_name='peixes' and column_name='temp_max') then
+    update peixes set temperatura =
+      coalesce(temp_min::text, '') ||
+      (case when temp_min is not null and temp_max is not null then '-' else '' end) ||
+      coalesce(temp_max::text, '')
+      where temperatura is null and (temp_min is not null or temp_max is not null);
+  end if;
+end $$;
 alter table peixes drop column if exists temp_min;
 alter table peixes drop column if exists temp_max;
 
 alter table peixes add column if not exists ph text;
-update peixes set ph =
-  coalesce(ph_min::text, '') ||
-  (case when ph_min is not null and ph_max is not null then '-' else '' end) ||
-  coalesce(ph_max::text, '')
-  where ph is null and (ph_min is not null or ph_max is not null);
+do $$ begin
+  if exists (select 1 from information_schema.columns where table_name='peixes' and column_name='ph_min')
+     and exists (select 1 from information_schema.columns where table_name='peixes' and column_name='ph_max') then
+    update peixes set ph =
+      coalesce(ph_min::text, '') ||
+      (case when ph_min is not null and ph_max is not null then '-' else '' end) ||
+      coalesce(ph_max::text, '')
+      where ph is null and (ph_min is not null or ph_max is not null);
+  end if;
+end $$;
 alter table peixes drop column if exists ph_min;
 alter table peixes drop column if exists ph_max;
 
@@ -53,11 +70,16 @@ alter table peixes drop constraint if exists peixes_reproducao_check;
 alter table plantas add column if not exists quantidade integer not null default 1;
 
 alter table plantas add column if not exists temperatura text;
-update plantas set temperatura =
-  coalesce(temp_min::text, '') ||
-  (case when temp_min is not null and temp_max is not null then '-' else '' end) ||
-  coalesce(temp_max::text, '')
-  where temperatura is null and (temp_min is not null or temp_max is not null);
+do $$ begin
+  if exists (select 1 from information_schema.columns where table_name='plantas' and column_name='temp_min')
+     and exists (select 1 from information_schema.columns where table_name='plantas' and column_name='temp_max') then
+    update plantas set temperatura =
+      coalesce(temp_min::text, '') ||
+      (case when temp_min is not null and temp_max is not null then '-' else '' end) ||
+      coalesce(temp_max::text, '')
+      where temperatura is null and (temp_min is not null or temp_max is not null);
+  end if;
+end $$;
 alter table plantas drop column if exists temp_min;
 alter table plantas drop column if exists temp_max;
 
@@ -70,20 +92,30 @@ alter table plantas drop constraint if exists plantas_plantio_check;
 alter table electronica add column if not exists quantidade integer not null default 1;
 
 alter table electronica add column if not exists voltagem text;
-update electronica set voltagem =
-  coalesce(volt_min::text, '') ||
-  (case when volt_min is not null and volt_max is not null then '-' else '' end) ||
-  coalesce(volt_max::text, '')
-  where voltagem is null and (volt_min is not null or volt_max is not null);
+do $$ begin
+  if exists (select 1 from information_schema.columns where table_name='electronica' and column_name='volt_min')
+     and exists (select 1 from information_schema.columns where table_name='electronica' and column_name='volt_max') then
+    update electronica set voltagem =
+      coalesce(volt_min::text, '') ||
+      (case when volt_min is not null and volt_max is not null then '-' else '' end) ||
+      coalesce(volt_max::text, '')
+      where voltagem is null and (volt_min is not null or volt_max is not null);
+  end if;
+end $$;
 alter table electronica drop column if exists volt_min;
 alter table electronica drop column if exists volt_max;
 
 alter table electronica add column if not exists tensao text;
-update electronica set tensao =
-  coalesce(tensao_min::text, '') ||
-  (case when tensao_min is not null and tensao_max is not null then '-' else '' end) ||
-  coalesce(tensao_max::text, '')
-  where tensao is null and (tensao_min is not null or tensao_max is not null);
+do $$ begin
+  if exists (select 1 from information_schema.columns where table_name='electronica' and column_name='tensao_min')
+     and exists (select 1 from information_schema.columns where table_name='electronica' and column_name='tensao_max') then
+    update electronica set tensao =
+      coalesce(tensao_min::text, '') ||
+      (case when tensao_min is not null and tensao_max is not null then '-' else '' end) ||
+      coalesce(tensao_max::text, '')
+      where tensao is null and (tensao_min is not null or tensao_max is not null);
+  end if;
+end $$;
 alter table electronica drop column if exists tensao_min;
 alter table electronica drop column if exists tensao_max;
 

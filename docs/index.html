@@ -264,6 +264,25 @@
     .thumb { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; background: var(--border); }
     .thumb-placeholder { width: 40px; height: 40px; border-radius: 8px; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
+    /* ── Ícones de características (peixes/plantas) ── */
+    .preview-img-wrap { position: relative; }
+    .icon-stack {
+      position: absolute; top: 6px; right: 6px; z-index: 2;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .icon-row { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+    .icon-badge {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(15,23,42,.65); color: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,.35); flex: none;
+    }
+    .icon-badge svg { width: 13px; height: 13px; display: block; }
+    .icon-row .icon-badge {
+      background: var(--bg); color: var(--muted);
+      border: 1px solid var(--border); box-shadow: none;
+    }
+
     /* ── Config ── */
     .config-warning { background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.3); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--warning); margin-bottom: 16px; }
 
@@ -604,8 +623,8 @@
 
       <div class="tbl-wrap">
         <table id="tbl-peixes">
-          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Qtd</th><th>Aquisição</th><th>Ações</th></tr></thead>
-          <tbody><tr><td colspan="7" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Qtd</th><th>Características</th><th>Aquisição</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="8" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
         </table>
       </div>
     </section>
@@ -633,13 +652,6 @@
       <option value="Simples"></option>
       <option value="Moderada"></option>
       <option value="Complicada"></option>
-    </datalist>
-    <datalist id="lista-luminosidade">
-      <option value="Baixa"></option>
-      <option value="Baixa-Média"></option>
-      <option value="Média"></option>
-      <option value="Média-Alta"></option>
-      <option value="Alta"></option>
     </datalist>
     <datalist id="lista-plantio">
       <option value="Solta"></option>
@@ -698,7 +710,13 @@
             </div>
             <div class="form-group">
               <label for="planta-luminosidade">Luminosidade</label>
-              <input type="text" id="planta-luminosidade" name="luminosidade" list="lista-luminosidade" placeholder="ex: Média">
+              <select id="planta-luminosidade" name="luminosidade">
+                <option value="">—</option>
+                <option value="Escuro">🌙 Escuro</option>
+                <option value="Sombra">🌳 Sombra</option>
+                <option value="Meio-Sol">🌗 Meio Sol</option>
+                <option value="Sol Pleno">☀️ Sol Pleno</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="planta-plantio">Plantio</label>
@@ -726,8 +744,8 @@
 
       <div class="tbl-wrap">
         <table id="tbl-plantas">
-          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Qtd</th><th>Aquisição</th><th>Ações</th></tr></thead>
-          <tbody><tr><td colspan="7" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
+          <thead><tr><th></th><th>Foto</th><th>Nome Comum</th><th>Nome Científico</th><th>Qtd</th><th>Características</th><th>Aquisição</th><th>Ações</th></tr></thead>
+          <tbody><tr><td colspan="8" style="text-align:center;color:var(--muted)">A carregar…</td></tr></tbody>
         </table>
       </div>
     </section>
@@ -1160,6 +1178,73 @@
   };
   document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharLightbox(); });
 
+  /* ── Ícones de características (peixes/plantas) ──
+     Pequenos SVG para, só de olhar para a foto, saber temperatura, nível da
+     água, luminosidade e tipo de plantio dum relance. */
+  const ICONE_LUA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  const ICONE_ARVORE_SOMBRA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l4 6H8l4-6z"/><path d="M12 8l5 7H7l5-7z"/><line x1="12" y1="15" x2="12" y2="20"/><ellipse cx="12" cy="21.3" rx="6" ry="1.1" fill="currentColor" stroke="none" opacity=".35"/></svg>';
+  const ICONE_MEIO_SOL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 7a5 5 0 0 1 0 10z" fill="currentColor" stroke="none"/><path d="M12 7a5 5 0 0 0 0 10M12 3v2M12 19v2M4.2 19.8l1.8-1.8M18 6l1.8-1.8"/></svg>';
+  const ICONE_SOL_PLENO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8l1.8-1.8M18 6l1.8-1.8"/></svg>';
+  const ICONE_TERMOMETRO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2 2 0 0 0-4 0v11.26a4 4 0 1 0 4 0z"/><circle cx="12" cy="17" r="2" fill="currentColor"/></svg>';
+  const ICONE_SUBSTRATO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14l-1.3 9.8a2 2 0 0 1-2 1.7H8.3a2 2 0 0 1-2-1.7L5 9z"/><path d="M3 9h18"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>';
+  const ICONE_ATADA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7c0 5 10 5 10 10M17 7c0 5-10 5-10 10"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>';
+  const ICONE_SOLTA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M2 14c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/><path d="M2 20c2-2 4-2 6 0s4 2 6 0s4-2 6 0"/></svg>';
+
+  // Extrai todos os números (inteiros ou decimais) dum texto tipo "24-28" ou
+  // "6.4-7.5", sem confundir o hífen separador com um sinal de menos.
+  function numerosDeIntervalo(txt) {
+    if (!txt) return [];
+    const limpo = String(txt).replace(/[–—]/g, '-');
+    return (limpo.match(/\d+(?:[.,]\d+)?/g) || []).map(n => parseFloat(n.replace(',', '.')));
+  }
+
+  function iconeTemperatura(txt) {
+    const nums = numerosDeIntervalo(txt);
+    if (!nums.length) return '';
+    const media = nums.reduce((a, b) => a + b, 0) / nums.length;
+    let cor;
+    if (media <= 10) cor = '#3b82f6';
+    else if (media <= 16) cor = '#22c55e';
+    else if (media <= 20) cor = '#f59e0b';
+    else cor = '#ef4444';
+    return `<span class="icon-badge" style="color:${cor}" title="Temperatura: ${txt}°C">${ICONE_TERMOMETRO}</span>`;
+  }
+
+  function iconeNivelAgua(nivel) {
+    const n = (nivel || '').trim().toLowerCase();
+    if (!n) return '';
+    const superficie = n.includes('superf') ? 1 : .25;
+    const intermedio = n.includes('interm') ? 1 : .25;
+    const fundo = n.includes('fundo') ? 1 : .25;
+    const svg = `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="3" rx="1" fill="currentColor" opacity="${superficie}"/><rect x="3" y="10.5" width="18" height="3" rx="1" fill="currentColor" opacity="${intermedio}"/><rect x="3" y="17" width="18" height="3" rx="1" fill="currentColor" opacity="${fundo}"/></svg>`;
+    return `<span class="icon-badge" title="Nível da água: ${nivel}">${svg}</span>`;
+  }
+
+  function iconeLuminosidade(lum) {
+    const mapa = { 'Escuro': ICONE_LUA, 'Sombra': ICONE_ARVORE_SOMBRA, 'Meio-Sol': ICONE_MEIO_SOL, 'Sol Pleno': ICONE_SOL_PLENO };
+    const svg = mapa[lum];
+    if (!svg) return '';
+    return `<span class="icon-badge" title="Luminosidade: ${lum}">${svg}</span>`;
+  }
+
+  function iconePlantio(plantio) {
+    const p = (plantio || '').trim().toLowerCase();
+    let svg = null;
+    if (p.includes('substrat')) svg = ICONE_SUBSTRATO;
+    else if (p.includes('atad')) svg = ICONE_ATADA;
+    else if (p.includes('solt')) svg = ICONE_SOLTA;
+    if (!svg) return '';
+    return `<span class="icon-badge" title="Plantio: ${plantio}">${svg}</span>`;
+  }
+
+  function iconesPeixe(p) {
+    return [iconeTemperatura(p.temperatura), iconeNivelAgua(p.nivel_agua)].filter(Boolean).join('');
+  }
+
+  function iconesPlanta(p) {
+    return [iconeLuminosidade(p.luminosidade), iconePlantio(p.plantio), iconeTemperatura(p.temperatura)].filter(Boolean).join('');
+  }
+
   function fmtDate(d) { return d ? new Date(d).toLocaleDateString('pt-PT') : '—'; }
 
   function auditBadge(acao) {
@@ -1206,23 +1291,30 @@
     } catch {}
 
     // Previews
-    await loadPreview('peixes', 'dash-peixes', 'nome_comum', '🐠');
-    await loadPreview('plantas', 'dash-plantas', 'nome_comum', '🌿');
+    await loadPreview('peixes', 'dash-peixes', 'nome_comum', '🐠', ['temperatura', 'nivel_agua'], iconesPeixe);
+    await loadPreview('plantas', 'dash-plantas', 'nome_comum', '🌿', ['luminosidade', 'plantio', 'temperatura'], iconesPlanta);
     await loadPreview('electronica', 'dash-electronica', 'nome', '⚡');
     await loadPreview('bricolagem', 'dash-bricolagem', 'nome', '🔧');
   }
 
-  async function loadPreview(tabela, containerId, labelField, emoji) {
+  async function loadPreview(tabela, containerId, labelField, emoji, extraCols = [], iconBuilder = null) {
     try {
-      const { data: rows, error } = await db.from(tabela).select(`id,${labelField},foto_url`).order('id', { ascending: false }).limit(3);
+      const cols = ['id', labelField, 'foto_url', ...extraCols].join(',');
+      const { data: rows, error } = await db.from(tabela).select(cols).order('id', { ascending: false }).limit(3);
       if (error) throw error;
       const el = document.getElementById(containerId);
       if (!rows || !rows.length) { el.innerHTML = `<p style="color:var(--muted);font-size:12px">Sem registos.</p>`; return; }
-      el.innerHTML = rows.map(row => `
+      el.innerHTML = rows.map(row => {
+        const icones = iconBuilder ? iconBuilder(row) : '';
+        return `
         <div class="preview-card">
-          ${row.foto_url ? `<img src="${row.foto_url}" class="preview-img" style="cursor:zoom-in" onclick="abrirLightbox('${row.foto_url}')" onerror="this.style.display='none'">` : `<div class="preview-img-placeholder">${emoji}</div>`}
+          <div class="preview-img-wrap">
+            ${row.foto_url ? `<img src="${row.foto_url}" class="preview-img" style="cursor:zoom-in" onclick="abrirLightbox('${row.foto_url}')" onerror="this.style.display='none'">` : `<div class="preview-img-placeholder">${emoji}</div>`}
+            ${icones ? `<div class="icon-stack">${icones}</div>` : ''}
+          </div>
           <div class="preview-card-body"><h5>${row[labelField] || '—'}</h5></div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
     } catch {}
   }
 
@@ -1360,6 +1452,7 @@
           <td>${p.nome_comum}</td>
           <td><em>${p.nome_cientifico || '—'}</em></td>
           <td style="text-align:center">${p.quantidade ?? 1}</td>
+          <td><div class="icon-row">${iconesPeixe(p) || '<span style="color:var(--muted);font-size:12px">—</span>'}</div></td>
           <td>${fmtDate(p.data_aquisicao)}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editPeixe(${JSON.stringify(p).split('"').join('&quot;')})">✏️</button>
@@ -1367,7 +1460,7 @@
           </td>
         </tr>
         <tr id="det-px-${p.id}" class="detail-row">
-          <td colspan="7">
+          <td colspan="8">
             <div class="detail-grid">
               <div class="detail-item"><label>Origem</label><span>${p.origem||'—'}</span></div>
               <div class="detail-item"><label>Tipo Água</label><span>${p.tipo_agua||'—'}</span></div>
@@ -1380,7 +1473,7 @@
             </div>
           </td>
         </tr>`;
-      }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
+      }).join('') || `<tr><td colspan="8" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
     } catch { flash('Erro ao carregar peixes.', 'error'); }
   }
 
@@ -1446,6 +1539,7 @@
           <td>${p.nome_comum}</td>
           <td><em>${p.nome_cientifico||'—'}</em></td>
           <td style="text-align:center">${p.quantidade ?? 1}</td>
+          <td><div class="icon-row">${iconesPlanta(p) || '<span style="color:var(--muted);font-size:12px">—</span>'}</div></td>
           <td>${fmtDate(p.data_aquisicao)}</td>
           <td class="td-actions">
             <button class="btn btn-ghost btn-sm" onclick="editPlanta(${JSON.stringify(p).split('"').join('&quot;')})">✏️</button>
@@ -1453,7 +1547,7 @@
           </td>
         </tr>
         <tr id="det-pl-${p.id}" class="detail-row">
-          <td colspan="7">
+          <td colspan="8">
             <div class="detail-grid">
               <div class="detail-item"><label>Origem</label><span>${p.origem||'—'}</span></div>
               <div class="detail-item"><label>Tamanho</label><span>${p.tamanho ? p.tamanho + ' cm' : '—'}</span></div>
@@ -1464,7 +1558,7 @@
               <div class="detail-item" style="grid-column:1/-1"><label>Truques</label><span>${p.truques||'—'}</span></div>
             </div>
           </td>
-        </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
+        </tr>`).join('') || `<tr><td colspan="8" style="text-align:center;color:var(--muted)">Sem registos.</td></tr>`;
     } catch { flash('Erro ao carregar plantas.', 'error'); }
   }
 

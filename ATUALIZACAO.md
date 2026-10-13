@@ -41,14 +41,30 @@ Sugestões que fui pensando enquanto construía isto, caso queiras que adicione 
 
 Nenhuma destas foi feita agora — só avança se quiseres.
 
+### 6. Ícones de características (Peixes e Plantas)
+Como pediste, agora há ícones que mostram de relance as características principais de cada peixe/planta — no Dashboard (sobre a foto, no canto superior direito, em coluna) e também em cada linha das listagens de Peixes e Plantas (nova coluna "Características").
+
+| Campo | Ícones |
+|---|---|
+| **Peixes** — Temperatura | Termómetro colorido: azul (0-10º), verde (10-16º), amarelo (16-20º), vermelho (>20º). Como a Temperatura é um intervalo (ex: "24-28"), uso a média do intervalo para escolher a cor. |
+| **Peixes** — Nível da água | 3 riscos horizontais (Superfície/Intermédio/Fundo); o risco correspondente ao que escreveste fica "cheio", os outros ficam esbatidos. |
+| **Plantas** — Luminosidade | 🌙 Escuro, 🌳 Sombra, 🌗 Meio-Sol, ☀️ Sol Pleno. |
+| **Plantas** — Plantio | Ícone de vaso (Substrato), nó/fio (Atada), ondas (Solta). |
+| **Plantas** — Temperatura | O mesmo termómetro colorido dos peixes. |
+
+Como combinámos, a Luminosidade voltou a ser um dropdown fechado com só estas 4 opções (precisava de ser um conjunto fixo para corresponder sempre a um ícone certo — já não é texto livre). Nível da água e Plantio continuam como campos de texto livre com sugestões; os ícones reconhecem automaticamente o que escreveres, mesmo com variações.
+
+Passa o rato por cima de um ícone para veres o valor exacto por trás dele.
+
 ---
 
-## PASSO 1 — Supabase: correr a migração
+## PASSO 1 — Supabase: correr as migrações
 
 1. Abre o Supabase Dashboard → projecto **LSPessoal** → **SQL Editor** → "New query"
 2. Copia o conteúdo de `supabase/migracao_v2.sql` e clica **Run**
+3. Numa nova query, copia o conteúdo de `supabase/migracao_v3.sql` e clica **Run**
 
-Isto adiciona a Quantidade, funde os campos mín/máx (sem perder o que já tinhas guardado), remove as restrições fixas dos dropdowns, e cria as tabelas novas das Experiências.
+A v2 adiciona a Quantidade, funde os campos mín/máx (sem perder o que já tinhas guardado), remove as restrições fixas dos dropdowns, e cria as tabelas novas das Experiências. A v3 volta a fechar a Luminosidade das Plantas num conjunto de 4 valores (Escuro/Sombra/Meio-Sol/Sol Pleno), migrando automaticamente o que já lá tinhas.
 
 ---
 
@@ -56,7 +72,7 @@ Isto adiciona a Quantidade, funde os campos mín/máx (sem perder o que já tinh
 
 1. Descarrega e extrai o novo `lspessoal.zip`
 2. Copia `docs/index.html` de dentro do ZIP, substituindo o que está em `~/Transferências/lspessoal/docs/index.html`
-3. Copia também `supabase/migracao_v2.sql` para `~/Transferências/lspessoal/supabase/migracao_v2.sql` (fica como registo, não precisa de correr de novo depois do Passo 1)
+3. Copia também `supabase/migracao_v2.sql` e `supabase/migracao_v3.sql` para `~/Transferências/lspessoal/supabase/` (ficam como registo, não precisam de correr de novo depois do Passo 1)
 
 ---
 
@@ -65,13 +81,15 @@ Isto adiciona a Quantidade, funde os campos mín/máx (sem perder o que já tinh
 ```bash
 cd ~/Transferências/lspessoal
 git add -A
-git commit -m "Adicionar Quantidade, simplificar campos min/max e dropdowns, criar pagina Experiencias"
+git commit -m "Adicionar icones de caracteristicas (peixes/plantas), fechar luminosidade em 4 valores"
 git push
 ```
 
 Espera 1-2 minutos e testa (Ctrl+F5 para não ficar com a versão antiga em cache).
 
 **Para testar:**
-1. Cria um peixe com Quantidade, pH "6.4-7.5" e Temperatura "24-28" — confirma que aparece tudo certo na listagem e ao editar.
-2. Escreve um valor novo em "Agressividade" (ex: "Média-Alta") que não estava na lista antiga — confirma que grava sem erro.
-3. Vai a Experiências → cria uma nova → adiciona 2-3 registos com datas e fotos → preenche a Data de Fecho → confirma que passa a "Fechada" e mostra o resumo.
+1. Cria um peixe com Quantidade, pH "6.4-7.5" e Temperatura "24-28" — confirma que aparece tudo certo na listagem e ao editar, e que aparece um termómetro vermelho (média 26º).
+2. Edita uma planta e escolhe uma Luminosidade (ex: "Sol Pleno") e um Plantio (ex: "Substrato") — confirma que aparecem os ícones certos no Dashboard (sobre a foto) e na listagem de Plantas.
+3. Escreve um valor novo em "Nível da água" (ex: "Fundo") num peixe — confirma que o risco de baixo fica em destaque no ícone.
+4. Escreve um valor novo em "Agressividade" (ex: "Média-Alta") que não estava na lista antiga — confirma que grava sem erro.
+5. Vai a Experiências → cria uma nova → adiciona 2-3 registos com datas e fotos → preenche a Data de Fecho → confirma que passa a "Fechada" e mostra o resumo.

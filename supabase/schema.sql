@@ -103,8 +103,8 @@ create table if not exists plantas (
   foto_url            text,
   tamanho             text,   -- texto livre (cm), ex: "20-30"
   temperatura         text,   -- texto livre, ex: "20-28"
-  luminosidade        text,   -- texto livre com sugestões (datalist) no frontend
-  plantio             text,
+  luminosidade        text check (luminosidade is null or luminosidade in ('Escuro','Sombra','Meio-Sol','Sol Pleno')),
+  plantio             text,   -- texto livre com sugestões (datalist) no frontend
   resistencia_peixes  boolean not null default false,
   truques             text,
   data_criacao        timestamptz not null default now()
